@@ -1,0 +1,51 @@
+{
+  "brand": {
+    "primary": {
+      "value": "#545afb",
+      "declinaisons": {
+        "lighten": "#6f76fa",
+        "darken": "#e0e0fa"
+      }
+    },
+    "secondary": {
+      "value": "#ffff99",
+      "declinaisons": {
+        "lighten": "#6f76fa",
+        "darken": "#e0e0fa"
+      }
+    },
+    "tertiary": {
+      "value": "#ffbb99"
+    }
+  },
+  "ui": {
+    "primary": {
+      "value": "#545afb",
+      "declinaisons": {
+        "lighten": "#6f76fa",
+        "darken": "#e0e0fa"
+      }
+    },
+    "secondary": {
+      "value": "#ffff99",
+      "declinaisons": {
+        "lighten": "#6f76fa",
+        "darken": "#e0e0fa"
+      }
+    }
+  },
+  "system": {
+    "info": {
+      "value": "#7dffe9"
+    },
+    "warning": {
+      "value": "#eded89"
+    },
+    "success": {
+      "value": "#86f6a9"
+    },
+    "error": {
+      "value": "#ff9999"
+    }
+  }
+}

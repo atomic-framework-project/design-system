@@ -1,0 +1,49 @@
+{
+  "name": "design-system",
+  "version": "1.0.0",
+  "description": "From Designer params to read-to-use Frontend material",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "engines": {
+    "node": ">=10"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "dev": "npx tsc -w",
+    "build": "npx tsc",
+    "format": "npx prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "npx tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
+    "proceed": "node ./lib/index.js -entry ./defaults -output ./dist -format .vue"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomic-framework-project/design-system.git"
+  },
+  "author": "shepaop",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/atomic-framework-project/design-system/issues"
+  },
+  "homepage": "https://github.com/atomic-framework-project/design-system#readme",
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "@types/globule": "^1.1.3",
+    "@types/jest": "^26.0.13",
+    "fs-extra": "^9.0.1",
+    "globule": "^1.3.2",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1",
+    "ts-jest": "^26.3.0",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.0.2"
+  }
+}

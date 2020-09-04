@@ -1,0 +1,19 @@
+:root {
+  --colors-brand-primary: #545afb;
+  --colors-brand-primary-lighten: #6f76fa;
+  --colors-brand-primary-lighten-darken: #e0e0fa;
+  --colors-brand-secondary: #ffff99;
+  --colors-brand-secondary-lighten: #6f76fa;
+  --colors-brand-secondary-lighten-darken: #e0e0fa;
+  --colors-brand-tertiary: #ffbb99;
+  --colors-ui-primary: #545afb;
+  --colors-ui-primary-lighten: #6f76fa;
+  --colors-ui-primary-lighten-darken: #e0e0fa;
+  --colors-ui-secondary: #ffff99;
+  --colors-ui-secondary-lighten: #6f76fa;
+  --colors-ui-secondary-lighten-darken: #e0e0fa;
+  --colors-system-info: #7dffe9;
+  --colors-system-warning: #eded89;
+  --colors-system-success: #86f6a9;
+  --colors-system-error: #ff9999;
+}
