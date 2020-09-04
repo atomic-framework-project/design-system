@@ -60,7 +60,7 @@ export class DesignSystemFeature {
   public exportSassMap(): string {
 
     let output = `
-      $${DesignSystemFeature.prefix}${this.namespace}: (
+      $${this.namespace}: (
     `;
 
     // Recursively parse JSON datas

@@ -49,14 +49,14 @@ exports.default = (prefix, params) => {
     // Colors
     for (const[name, color] of Object.entries(colors)){
 
-      let namespace = `${prefix}-${family}-${name}`;
+      const namespace = `${prefix}-${family}-${name}`;
 
       // Root color value
       if(typeof color.value === 'string') {
         designSystemDirectives.cssVars[namespace] = color.value;
         designSystemDirectives.sassPlaceholders = {
           ...designSystemDirectives.sassPlaceholders,
-          ...setupPlaceholder(namespace, color.value)
+          ...setupPlaceholder(namespace, color.value),
         };
       }
 
@@ -70,7 +70,7 @@ exports.default = (prefix, params) => {
           designSystemDirectives.cssVars[declinaisonNamespace] = value;
           designSystemDirectives.sassPlaceholders = {
             ...designSystemDirectives.sassPlaceholders,
-            ...setupPlaceholder(declinaisonNamespace, value)
+            ...setupPlaceholder(declinaisonNamespace, value),
           };
         }
       }

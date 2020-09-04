@@ -52,12 +52,13 @@ export class DesignSystem {
 
     for (const feature of features) {
       const name = basename(feature, DesignSystem.featureExtension);
+      const featureParams = await import(feature);
       const params: any = {
         files: {
           params: feature,
         },
         // Get Design System Features params
-        params: await import(feature),
+        params: featureParams.default,
       }
 
       // Search for a Readme file
@@ -119,7 +120,11 @@ export class DesignSystem {
   public getCssVars(): string {
 
     for(const [namespace, feature] of Object.entries(this.features)) {
-      this.cssVars += feature.exportCssVars();
+      this.cssVars += `
+      
+        /* ${namespace} */
+        ${feature.exportCssVars()}
+      `;
     }
 
     return this.cssVars;
