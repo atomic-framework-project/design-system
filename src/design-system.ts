@@ -129,11 +129,7 @@ export class DesignSystem {
   public getCssVars(): string {
 
     for(const [namespace, feature] of Object.entries(this.features)) {
-      this.cssVars += `
-      
-        /* ${namespace} */
-        ${feature.exportCssVars()}
-      `;
+      this.cssVars += feature.exportCssVars();
     }
 
     return this.cssVars;
@@ -184,7 +180,7 @@ export class DesignSystem {
       /// @param {string} $device Semantic breakpoint name string
       /// @param {map} $breakpointsSystem [$design-system-breakpoints] Sass map with semantic breakpoints names associated with their values
       
-      @mixin breakpoint($device, $breakpoints-system:$design-system-breakpoints) {
+      @mixin breakpoint($device, $breakpoints-system:$DS-design-system-breakpoints) {
       
         @if map-has-key($breakpoints-system, $device) {
           @media (min-width: #{map-get($breakpoints-system, $device)}px) {

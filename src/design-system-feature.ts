@@ -58,8 +58,12 @@ export class DesignSystemFeature {
 
     let output = '';
 
-    if(typeof this.directives?.cssVars !== 'undefined') {
+    if(typeof this.directives?.cssVars !== 'undefined' && Object.keys(this.directives.cssVars).length) {
 
+      output += `
+      
+        /* ${this.namespace} */
+      `;
       for(const [varname, value] of Object.entries(this.directives.cssVars)){
         output += `--${varname}: ${DesignSystemFeature.cssPropertyConverter(value)};`;
       }

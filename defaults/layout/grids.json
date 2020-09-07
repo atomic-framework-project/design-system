@@ -1,0 +1,23 @@
+{
+  "mobile": {
+    "size": 4,
+    "gutter": 16,
+    "prefferedCombinaisons": [1, 2, 4],
+    "relativeSize": null,
+    "units": {}
+  },
+  "tablet": {
+    "size": 8,
+    "gutter": 16,
+    "prefferedCombinaisons": [1, 2, 4, 8],
+    "relativeSize": null,
+    "units": {}
+  },
+  "desktop": {
+    "size": 12,
+    "gutter": 16,
+    "prefferedCombinaisons": [1, 2, 3, 4, 6, 12],
+    "relativeSize": null,
+    "units": {}
+  }
+}
