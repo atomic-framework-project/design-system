@@ -1,0 +1,7 @@
+{
+  "x-fast": 100,
+  "fast": 250,
+  "standard": 500,
+  "slow": 1000,
+  "x-slow": 2000
+}

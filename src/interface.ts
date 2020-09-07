@@ -1,12 +1,14 @@
 export type OutputFormat = 'css' | 'scss';
 export type TemplateFormat = '.twig' | '.vue';
 
+export type DesignSystemPreprocessFunction = (self: object) => any;
 export type DesignSystemProcessFunction = (prefix: string, params: any) => DesignSystemDirectives;
 
 export interface DesignSystemFeatureParams {
   files: DesignSystemFeatureParamsFiles;
   params: any;
   desc?: string;
+  preprocess?: DesignSystemPreprocessFunction;
   process?: DesignSystemProcessFunction;
   template?: string;
 }

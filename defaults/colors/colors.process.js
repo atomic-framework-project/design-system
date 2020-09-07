@@ -4,7 +4,6 @@ function setupPlaceholder(namespace, value) {
 
   output[`%${namespace}-background`] = {
     sassdoc: {
-      '': `Extend design system [${namespace}: ${value}] for background-color`,
       '@name': `${namespace}-background`
     },
     css: {
@@ -14,7 +13,6 @@ function setupPlaceholder(namespace, value) {
 
   output[`%${namespace}-color`] = {
     sassdoc: {
-      '': `Extend design system [${namespace}: ${value}] for color`,
       '@name': `${namespace}-color`
     },
     css: {
@@ -24,7 +22,6 @@ function setupPlaceholder(namespace, value) {
 
   output[`%${namespace}-border`] = {
     sassdoc: {
-      '': `Extend design system [${namespace}: ${value}] for border-color`,
       '@name': `${namespace}-border`
     },
     css: {

@@ -1,5 +1,6 @@
 import {
   DesignSystemFeatureParams,
+  DesignSystemPreprocessFunction,
   DesignSystemProcessFunction,
   DesignSystemDirectives,
   DesignSystemFeatureParamsFiles,
@@ -8,25 +9,35 @@ import {
 
 export class DesignSystemFeature {
 
-  private static prefix = 'DS-';
-  private static sassDocGroupName = 'Design System';
+  public readonly _prefix = 'DS-';
+  public readonly _sassDocGroupName = 'Design System';
 
   private readonly namespace: string;
   private readonly files: DesignSystemFeatureParamsFiles;
-  private readonly params: any;
   private readonly desc: string | undefined = undefined;
+  private readonly preprocess: DesignSystemPreprocessFunction | undefined = undefined;
   private readonly process: DesignSystemProcessFunction | undefined = undefined;
   private readonly template: string | undefined = undefined;
-  private readonly directives: DesignSystemDirectives | undefined = undefined;
+
+  private params: any;
+  private directives: DesignSystemDirectives | undefined = undefined;
 
   constructor(namespace:string, params: DesignSystemFeatureParams) {
 
-    this.namespace = `${DesignSystemFeature.prefix}${namespace}`;
+    this.namespace = `${this._prefix}${namespace}`;
     this.files = params.files;
     this.params = params.params;
     typeof params.desc === 'string' ? this.desc = params.desc : null;
+    typeof params.preprocess === 'function' ? this.preprocess = params.preprocess : null;
     typeof params.process === 'function' ? this.process = params.process : null;
     typeof params.template === 'string' ? this.template = params.template : null;
+
+    if(typeof this.preprocess === 'function'){
+      this.params = {
+        ...this.params,
+        ...this.preprocess(this),
+      };
+    }
 
     if(typeof this.process === 'function'){
       this.directives = this.process(this.namespace, this.params);
@@ -122,7 +133,7 @@ export class DesignSystemFeature {
           if (Object.keys(placeholder.sassdoc).length > 0) {
             // Sassdoc
             output += `
-            /// @group ${DesignSystemFeature.sassDocGroupName}`;
+            /// @group ${this._sassDocGroupName}`;
           }
 
           // Sassdoc
@@ -264,6 +275,11 @@ export class DesignSystemFeature {
   public getTemplate() {
 
     return this.template;
+  }
+
+  public getPreprocess() {
+
+    return this.preprocess;
   }
 
   public getProcess() {

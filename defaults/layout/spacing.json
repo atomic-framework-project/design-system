@@ -1,0 +1,16 @@
+{
+  "block": {
+    "x-large": 64,
+    "large": 32,
+    "standard": 16,
+    "small": 8,
+    "x-small": 4,
+    "x-x-small": 2
+  },
+  "text": {
+    "large": 24,
+    "standard": 12,
+    "small": 6,
+    "x-small": 3
+  }
+}

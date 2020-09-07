@@ -1,4 +1,4 @@
-import {OutputFormat, TemplateFormat, DesignSystemProcessFunction} from './interface';
+import {OutputFormat, TemplateFormat, DesignSystemPreprocessFunction, DesignSystemProcessFunction} from './interface';
 import {DesignSystemFeature} from './design-system-feature';
 import {format as prettierFormat} from 'prettier';
 import {writeFileSync, readFileSync, existsSync, ensureDirSync} from 'fs-extra';
@@ -24,6 +24,7 @@ export class DesignSystem {
 
   public static featureExtension = '.json';
   public static descExtension = '.md';
+  public static preprocessExtension = '.preprocess.js';
   public static processExtension = '.process.js';
 
   constructor(entry: string, output: string, templateType: TemplateFormat) {
@@ -69,9 +70,17 @@ export class DesignSystem {
       }
 
       // Search for a Process function file
+      const preprocessPath = `${dirname(feature)}${sep}${name}${DesignSystem.preprocessExtension}`;
+      if (existsSync(preprocessPath)) {
+        params.files.preprocess = preprocessPath;
+        const preprocess = await import(preprocessPath);
+        params.preprocess = preprocess.default.default as DesignSystemPreprocessFunction;
+      }
+
+      // Search for a Process function file
       const processPath = `${dirname(feature)}${sep}${name}${DesignSystem.processExtension}`;
       if (existsSync(processPath)) {
-        params.files.desc = processPath;
+        params.files.process = processPath;
         const process = await import(processPath);
         params.process = process.default.default as DesignSystemProcessFunction;
       }

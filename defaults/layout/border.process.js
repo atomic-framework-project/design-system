@@ -14,7 +14,6 @@ function setupPlaceholder(namespace, value) {
 
   output[`%${namespace}`] = {
     sassdoc: {
-      '': `Extend design system [${namespace}: ${value}]`,
       '@name': `${namespace}`
     },
     css: {
@@ -29,12 +28,11 @@ function setupPlaceholder(namespace, value) {
 
     output[`%${namespaceSide}`] = {
       sassdoc: {
-        '': `Extend design system [${namespaceSide}: ${value}]`,
         '@name': `${namespaceSide}`
       },
       css: {},
     };
-    output[`%${namespaceSide}`].css[`border-${side}-width`] = `${value}${unitChecker(value)}`;
+    output[`%${namespaceSide}`].css[`border-${side}-width`] = `var(--${namespace})`;
     output[`%${namespaceSide}`].css[`border-${side}-style`] = 'solid';
   }
 
@@ -54,7 +52,7 @@ exports.default = (prefix, params) => {
 
     const namespace = `${prefix}-${name}`;
 
-    designSystemDirectives.cssVars[namespace] = `${value}${unitChecker()}`;
+    designSystemDirectives.cssVars[namespace] = `${value}${unitChecker(value)}`;
     designSystemDirectives.sassPlaceholders = {
       ...designSystemDirectives.sassPlaceholders,
       ...setupPlaceholder(namespace, value),
