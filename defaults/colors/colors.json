@@ -18,6 +18,40 @@
       "value": "#ffbb99"
     }
   },
+  "greyscale": {
+    "white": {
+      "value": "#ffffff",
+      "declinaisons": {
+        "80": "rgba(255, 255, 255, .8)",
+        "60": "rgba(255, 255, 255, .6)",
+        "40": "rgba(255, 255, 255, .4)",
+        "20": "rgba(255, 255, 255, .2)",
+        "10": "rgba(255, 255, 255, .1)"
+      }
+    },
+    "black": {
+      "value": "#000000",
+      "declinaisons": {
+        "80": "rgba(0, 0, 0, .8)",
+        "60": "rgba(0, 0, 0, .6)",
+        "40": "rgba(0, 0, 0, .4)",
+        "20": "rgba(0, 0, 0, .2)",
+        "10": "rgba(0, 0, 0, .1)"
+      }
+    },
+    "light": {
+      "value": "#eaebeb"
+    },
+    "semi": {
+      "value": "#d6d7d7"
+    },
+    "grey": {
+      "value": "#838888"
+    },
+    "dark": {
+      "value": "#596160"
+    }
+  },
   "ui": {
     "primary": {
       "value": "#545afb",
