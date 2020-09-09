@@ -4,7 +4,7 @@ import {
   DesignSystemProcessFunction,
   DesignSystemDirectives,
   DesignSystemFeatureParamsFiles,
-  DesignSystemDirectivesPlaceholders
+  DesignSystemDirectivesPlaceholders, DesignSystemDirectivesFont
 } from './interface';
 
 export class DesignSystemFeature {
@@ -19,7 +19,7 @@ export class DesignSystemFeature {
   private readonly process: DesignSystemProcessFunction | undefined = undefined;
   private readonly template: string | undefined = undefined;
 
-  private params: any;
+  private params: object;
   private directives: DesignSystemDirectives | undefined = undefined;
 
   constructor(namespace:string, params: DesignSystemFeatureParams) {
@@ -54,6 +54,48 @@ export class DesignSystemFeature {
     return this.directives?.cssVars;
   }
 
+  public getFonts(): {[key: string]: DesignSystemDirectivesFont} | undefined {
+
+    return this.directives?.fonts;
+  }
+
+  public exportFonts(): string {
+
+    let output = '';
+
+    if(typeof this.directives?.fonts !== 'undefined' && Object.keys(this.directives.fonts).length) {
+
+      for(const [namespace, fontDirectives] of Object.entries(this.directives.fonts)){
+
+        if(typeof fontDirectives['@import'] === 'string') {
+          output += `
+            @import url(${fontDirectives['@import']});`;
+        }
+        else {
+          output += `
+          
+            @font-face {
+          `;
+
+          if (typeof fontDirectives.css === 'object') {
+
+            for (const [prop, value] of Object.entries(fontDirectives.css)) {
+              output += `
+                ${prop}: ${value};`;
+            }
+          }
+
+          output += `
+              src: url(${fontDirectives.file}) format("woff2");
+            }
+          `;
+        }
+      }
+    }
+
+    return output;
+  }
+
   public exportCssVars(): string {
 
     let output = '';
@@ -74,47 +116,51 @@ export class DesignSystemFeature {
 
   public exportSassMap(): string {
 
-    let output = `
-      $${this.namespace}: (
-    `;
+    if(typeof this.directives?.bypassMap !== 'boolean' || !this.directives?.bypassMap) {
+      let output = `
+        $${this.namespace}: (
+      `;
 
-    // Recursively parse JSON datas
-    const recursiveCall = (recursiveDatas: object) => {
+      // Recursively parse JSON datas
+      const recursiveCall = (recursiveDatas: object) => {
 
-      let recursiveOutput = '';
+        let recursiveOutput = '';
 
-      if (typeof recursiveDatas === 'object') {
+        if (typeof recursiveDatas === 'object') {
 
-        for (const[key, item] of Object.entries(recursiveDatas)) {
+          for (const [key, item] of Object.entries(recursiveDatas)) {
 
-          if(item !== null && typeof item !== 'undefined' && item.constructor === Object) {
+            if (item !== null && typeof item !== 'undefined' && item.constructor === Object) {
 
-            recursiveOutput += `
-              '${key}': (
-            `;
-            recursiveOutput += recursiveCall(item);
-            recursiveOutput += `
-              ),
-            `;
-          }
-          else {
-            recursiveOutput += `
-              '${key}': ${DesignSystemFeature.cssPropertyConverter(item)},
-            `;
+              recursiveOutput += `
+                '${key}': (
+              `;
+              recursiveOutput += recursiveCall(item);
+              recursiveOutput += `
+                ),
+              `;
+            } else {
+              recursiveOutput += `
+                '${key}': ${DesignSystemFeature.cssPropertyConverter(item)},
+              `;
+            }
           }
         }
-      }
 
-      return recursiveOutput;
-    };
+        return recursiveOutput;
+      };
 
-    output += recursiveCall(this.params);
+      output += recursiveCall(DesignSystemFeature.filterObjectByKeyPrefix(this.params));
 
-    output += `
-      );
-    `;
+      output += `
+        );
+      `;
 
-    return output;
+      return output;
+    }
+    else {
+      return '';
+    }
   }
 
   public exportSassPlaceholders(): string {
@@ -206,9 +252,11 @@ export class DesignSystemFeature {
 
           for (const [prop, value] of Object.entries(placeholder.css)) {
 
-            if (prop.startsWith('@')) {
-              output += `
-              @extend ${value};`;
+            if (prop === '@extend' && value.constructor === Array) {
+              for (const extend of value) {
+                output += `
+                @extend ${extend};`;
+              }
             }
             else {
               output += `
@@ -313,4 +361,21 @@ export class DesignSystemFeature {
 
     return output;
   }
+
+  private static filterObjectByKeyPrefix = (params: object, prefix: string = '_'): any => {
+
+    const output: any = {};
+    for (let [key, data] of Object.entries(params)) {
+
+      if(key.substr(0, prefix.length) !== prefix){
+
+        if(data !== null && typeof data !== 'undefined' && data.constructor === Object){
+          data = DesignSystemFeature.filterObjectByKeyPrefix(data, prefix);
+        }
+        output[key] = data;
+      }
+    }
+
+    return output;
+  };
 }

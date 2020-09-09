@@ -6,7 +6,7 @@ export type DesignSystemProcessFunction = (prefix: string, params: any) => Desig
 
 export interface DesignSystemFeatureParams {
   files: DesignSystemFeatureParamsFiles;
-  params: any;
+  params: object;
   desc?: string;
   preprocess?: DesignSystemPreprocessFunction;
   process?: DesignSystemProcessFunction;
@@ -24,8 +24,16 @@ export interface DesignSystemFeatureParamsFiles {
  * Object returned by any conversion process function
  */
 export interface DesignSystemDirectives {
-  cssVars: {[key: string]: string};
+  bypassMap?: boolean,
+  fonts?: {[key: string]: DesignSystemDirectivesFont};
+  cssVars?: {[key: string]: string};
   sassPlaceholders: {[key: string]: DesignSystemDirectivesPlaceholders};
+}
+
+export interface DesignSystemDirectivesFont {
+  '@import'?: string
+  file?: string;
+  css?: {[key: string]: any};
 }
 
 export interface DesignSystemDirectivesPlaceholders {

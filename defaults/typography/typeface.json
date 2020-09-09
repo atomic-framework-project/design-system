@@ -1,0 +1,64 @@
+{
+  "popins": {
+    "name": "Popins",
+    "font-display": "swap",
+    "font-face-family": "Popins",
+    "_font-family": "\"Popins\", sans-serif",
+    "responsive": {
+      "mobile": {
+        "root": 16,
+        "typescale": "Minor Third",
+        "line-height-heading": 1.2,
+        "line-height-text": 1.5
+      },
+      "tablet": {
+        "root": 18,
+        "typescale": "Perfect Fourth",
+        "line-height-heading": 1.2,
+        "line-height-text": 1.5
+      },
+      "desktop": {
+        "root": 20,
+        "typescale": "Augmented Fourth",
+        "line-height-heading": 1.2,
+        "line-height-text": 1.5
+      },
+      "desktop-large": {
+        "root": 20,
+        "typescale": "Augmented Fourth",
+        "line-height-heading": 1.2,
+        "line-height-text": 1.5
+      }
+    },
+    "font-sizes-specifics": {
+      "sp-1": {
+        "mobile": 11,
+        "tablet": 12,
+        "desktop": 14,
+        "desktop-large": 14
+      },
+      "sp-2": {
+        "mobile": 10,
+        "tablet": 10,
+        "desktop": 12,
+        "desktop-large": 12
+      }
+    },
+    "fonts": {
+      "light": {
+        "name": "Light",
+        "_file": "./typeface/popins-light.woff2",
+        "font-weight": 300,
+        "font-style": "normal",
+        "css": {}
+      },
+      "bold": {
+        "name": "Bold",
+        "_file": "./typeface/popins-bold.woff2",
+        "font-weight": 700,
+        "font-style": "normal",
+        "css": {}
+      }
+    }
+  }
+}

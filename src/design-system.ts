@@ -1,4 +1,4 @@
-import {OutputFormat, TemplateFormat, DesignSystemPreprocessFunction, DesignSystemProcessFunction} from './interface';
+import {TemplateFormat, DesignSystemFeatureParams, DesignSystemPreprocessFunction, DesignSystemProcessFunction} from './interface';
 import {DesignSystemFeature} from './design-system-feature';
 import {format as prettierFormat} from 'prettier';
 import {writeFileSync, readFileSync, existsSync, ensureDirSync} from 'fs-extra';
@@ -42,6 +42,7 @@ export class DesignSystem {
   public async setup() {
     await this.exploreFolder(this.defaults);
     // await this.exploreFolder(this.entry);
+    this.getFonts();
     this.getCssVars();
     this.getSassMaps();
     this.getSassPlaceholders();
@@ -107,7 +108,7 @@ export class DesignSystem {
     }
   }
 
-  public setFeature(namespace: string, params: any) {
+  public setFeature(namespace: string, params: DesignSystemFeatureParams) {
 
     if(typeof this.features[namespace] !== 'undefined') {
       console.log(`Feature "${namespace}" overrided`);
@@ -125,6 +126,15 @@ export class DesignSystem {
       console.log(`There is no "${namespace}" feature in your Design System`);
     }
   }
+
+  public getFonts(): string {
+
+    for(const [namespace, feature] of Object.entries(this.features)) {
+      this.fonts += feature.exportFonts();
+    }
+
+    return this.fonts;
+  };
 
   public getCssVars(): string {
 
@@ -174,13 +184,15 @@ export class DesignSystem {
       
       @import './design-system.css';
       
+      ${this.fonts}
+      
       /// Define @content from a specific semantic breakpoint
       /// @name breakpoint
       /// @group Core
       /// @param {string} $device Semantic breakpoint name string
       /// @param {map} $breakpointsSystem [$design-system-breakpoints] Sass map with semantic breakpoints names associated with their values
       
-      @mixin breakpoint($device, $breakpoints-system:$DS-design-system-breakpoints) {
+      @mixin breakpoint($device, $breakpoints-system:$DS-breakpoints) {
       
         @if map-has-key($breakpoints-system, $device) {
           @media (min-width: #{map-get($breakpoints-system, $device)}px) {
@@ -205,8 +217,6 @@ export class DesignSystem {
           @content;
         }
       }
-      
-      ${this.fonts}
       
       ${this.sassMaps}
       
