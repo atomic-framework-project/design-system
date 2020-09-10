@@ -30,10 +30,10 @@ export class DesignSystemFeature {
     this.namespace = `${this._prefix}${namespace}`;
     this.files = params.files;
     this.params = params.params;
-    typeof params.desc === 'string' ? this.desc = params.desc : null;
-    typeof params.preprocess === 'function' ? this.preprocess = params.preprocess : null;
-    typeof params.process === 'function' ? this.process = params.process : null;
-    typeof params.template === 'string' ? this.template = params.template : null;
+    typeof params.desc === 'string' ? this.desc = params.desc : this.desc = undefined;
+    if(typeof params.preprocess === 'function') {this.preprocess = params.preprocess}
+    if(typeof params.process === 'function') {this.process = params.process}
+    typeof params.template === 'string' ? this.template = params.template : this.template = undefined;
 
     this.setup();
   }

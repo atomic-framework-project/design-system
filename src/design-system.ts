@@ -172,7 +172,7 @@ export class DesignSystem {
 
   public writeCssFile() {
 
-    let source = `
+    const source = `
       /* ${DesignSystem.outputMsg} */
     
       :root {
@@ -186,7 +186,7 @@ export class DesignSystem {
 
   public writeSassFile() {
 
-    let source = `
+    const source = `
       // ${DesignSystem.outputMsg}
       
       @import './design-system.css';

@@ -3,7 +3,7 @@ import {DesignSystem} from "./design-system";
 
 export default async function proceed() {
 
-  let output: null | DesignSystem = null;
+  const output: null | DesignSystem = null;
 
   if (
     typeof process.argv[2] === 'string'

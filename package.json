@@ -1,5 +1,5 @@
 {
-  "name": "design-system",
+  "name": "@afw/design-system",
   "version": "1.0.0",
   "description": "From Designer params to read-to-use Frontend material",
   "main": "lib/index.js",
@@ -11,7 +11,7 @@
     "lib/**/*"
   ],
   "scripts": {
-    "test": "jest --config jestconfig.json",
+    "test": "jest --passWithNoTests --config jestconfig.json",
     "dev": "npx tsc -w",
     "build": "npx tsc",
     "format": "npx prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
