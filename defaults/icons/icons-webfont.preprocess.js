@@ -19,7 +19,7 @@ exports.default = async (DesignSystemFeatureObj) => {
         ...DesignSystemFeatureObj.extractSvgSize(iconMarkupOptimized),
         file: `"${icon}"`,
         relpath: `"${relpath}"`,
-        _path: `data:image/svg+xml;charset=utf-8,${urlencode(iconMarkupOptimized)}`,
+        _path: iconMarkupOptimized,
       };
     }
   }

@@ -6,10 +6,7 @@ import {
   DesignSystemFeatureParamsFiles,
   DesignSystemDirectivesPlaceholders, DesignSystemDirectivesFont
 } from './interface';
-import {readFileSync} from 'fs';
-import {dirname, basename} from 'path';
-import imagemin from 'imagemin';
-import imageminSvgo from 'imagemin-svgo';
+import SVGO from 'svgo';
 
 export class DesignSystemFeature {
 
@@ -20,7 +17,7 @@ export class DesignSystemFeature {
   private readonly namespace: string;
   private readonly files: DesignSystemFeatureParamsFiles;
   private readonly desc: string | undefined = undefined;
-  private readonly preprocess: DesignSystemPreprocessFunction | undefined = undefined;
+  private readonly preprocess: DesignSystemPreprocessFunction = (): object => {return {}};
   private readonly process: DesignSystemProcessFunction | undefined = undefined;
   private readonly template: string | undefined = undefined;
 
@@ -38,10 +35,15 @@ export class DesignSystemFeature {
     typeof params.process === 'function' ? this.process = params.process : null;
     typeof params.template === 'string' ? this.template = params.template : null;
 
+    this.setup();
+  }
+
+  public async setup(): Promise<void> {
+
     if(typeof this.preprocess === 'function'){
       this.params = {
         ...this.params,
-        ...this.preprocess(this),
+        ...await this.preprocess(this),
       };
     }
 
@@ -63,69 +65,6 @@ export class DesignSystemFeature {
   public getFonts(): {[key: string]: DesignSystemDirectivesFont} | undefined {
 
     return this.directives?.fonts;
-  }
-
-  public setupIcons(iconList: string[]): void {
-
-    (async () => {
-      // @todo: minification KO
-      await imagemin(iconList, {
-        destination: dirname(iconList[0]),
-        plugins: [
-          imageminSvgo({
-            plugins: [
-              {removeViewBox: false}
-            ]
-          })
-        ]
-      });
-    })();
-
-    for(const icon of iconList){
-
-      const path = readFileSync(icon, {encoding: 'utf-8'});
-
-      const iconName = basename(icon, '.svg');
-
-      // let width = null;
-      // let height = null;
-      //
-      // const svgWidthAttr = /<svg[^>]*width="(\d+)(px)?"(.*)>/gi;
-      // if (svgWidthAttr.test(icon)) {
-      //   icon.replace(svgWidthAttr, (match, result) => {
-      //     width = Number.parseFloat(result);
-      //     return result;
-      //   });
-      // }
-      // const svgHeightAttr = /<svg[^>]*height="(\d+)(px)?"(.*)>/gi;
-      // if (svgHeightAttr.test(icon)) {
-      //   icon.replace(svgHeightAttr, (match, result) => {
-      //     height = Number.parseFloat(result);
-      //     return result;
-      //   });
-      // }
-      // const svgViewboxAttr = /<svg[^>]*viewbox="(([0-9 px])*)"(.*)>/gi;
-      // if (width == null && height == null && svgViewboxAttr.test(icon)) {
-      //   icon.replace(svgViewboxAttr, (match, result) => {
-      //     console.log('viewbox ----', iconName);
-      //     const coords = result.replace('px', '').split(' ');
-      //     if (typeof coords[2] !== 'undefined'){
-      //       width = Number.parseFloat(coords[2]);
-      //     }
-      //     if (typeof coords[3] !== 'undefined'){
-      //       height = Number.parseFloat(coords[3]);
-      //     }
-      //     return result;
-      //   });
-      // }
-      //
-      // this.params[iconName] = {
-      //   file: iconName,
-      //   width,
-      //   height,
-      //   _path: `data:image/svg+xml;charset=utf-8,${path}`,
-      // };
-    }
   }
 
   public exportFonts(): string {
@@ -406,6 +345,123 @@ export class DesignSystemFeature {
   public getProcess() {
 
     return this.process;
+  }
+
+  public async optimiseSvgPath(path: string): Promise<string> {
+
+    const svgo = new SVGO({
+      plugins: [{
+        cleanupAttrs: true,
+      }, {
+        removeDoctype: true,
+      },{
+        removeXMLProcInst: true,
+      },{
+        removeComments: true,
+      },{
+        removeMetadata: true,
+      },{
+        removeTitle: true,
+      },{
+        removeDesc: true,
+      },{
+        removeUselessDefs: true,
+      },{
+        removeEditorsNSData: true,
+      },{
+        removeEmptyAttrs: true,
+      },{
+        removeHiddenElems: true,
+      },{
+        removeEmptyText: true,
+      },{
+        removeEmptyContainers: true,
+      },{
+        removeViewBox: false,
+      },{
+        cleanupEnableBackground: true,
+      },{
+        convertStyleToAttrs: true,
+      },{
+        convertColors: true,
+      },{
+        convertPathData: true,
+      },{
+        convertTransform: true,
+      },{
+        removeUnknownsAndDefaults: true,
+      },{
+        removeNonInheritableGroupAttrs: true,
+      },{
+        removeUselessStrokeAndFill: true,
+      },{
+        removeUnusedNS: true,
+      },{
+        cleanupIDs: true,
+      },{
+        cleanupNumericValues: true,
+      },{
+        moveElemsAttrsToGroup: true,
+      },{
+        moveGroupAttrsToElems: true,
+      },{
+        collapseGroups: true,
+      },{
+        removeRasterImages: false,
+      },{
+        mergePaths: true,
+      },{
+        convertShapeToPath: true,
+      },{
+        sortAttrs: true,
+      },{
+        removeDimensions: true,
+      },{
+        removeAttrs: {attrs: '(stroke|fill)'},
+      }]
+    });
+
+    const output = await svgo.optimize(path);
+    return output.data;
+  }
+
+  public extractSvgSize(markup: any): {width: number, height: number} {
+
+    let width =0;
+    let height = 0;
+
+    const svgWidthAttr = /<svg[^>]*width="(\d+)(px)?"(.*)>/gi;
+    if (svgWidthAttr.test(markup)) {
+      markup.replace(svgWidthAttr, (match: string, result: string) => {
+        width = Number.parseFloat(result);
+        return result;
+      });
+    }
+    const svgHeightAttr = /<svg[^>]*height="(\d+)(px)?"(.*)>/gi;
+    if (svgHeightAttr.test(markup)) {
+      markup.replace(svgHeightAttr, (match: string, result: string) => {
+        height = Number.parseFloat(result);
+        return result;
+      });
+    }
+    const svgViewboxAttr = /<svg[^>]*viewbox="(([0-9 px])*)"(.*)>/gi;
+    if (!width && !height && svgViewboxAttr.test(markup)) {
+      markup.replace(svgViewboxAttr, (match: string, result: string) => {
+        const coords = result.replace('px', '').split(' ');
+        if (typeof coords[2] !== 'undefined') {
+          width = Number.parseFloat(coords[2]);
+        }
+        if (typeof coords[3] !== 'undefined') {
+          height = Number.parseFloat(coords[3]);
+        }
+        return result;
+      });
+    }
+
+    return {
+      width,
+      height,
+    };
   }
 
   private static cssPropertyConverter(property: any): string {
