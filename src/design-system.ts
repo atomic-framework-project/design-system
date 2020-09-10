@@ -2,12 +2,13 @@ import {TemplateFormat, DesignSystemFeatureParams, DesignSystemPreprocessFunctio
 import {DesignSystemFeature} from './design-system-feature';
 import {format as prettierFormat} from 'prettier';
 import {writeFileSync, readFileSync, existsSync, ensureDirSync} from 'fs-extra';
-import {resolve, basename, dirname, sep} from 'path';
+import {resolve, basename, dirname, sep, join} from 'path';
 import {find} from 'globule';
 
 export class DesignSystem {
 
   private readonly defaults: string = resolve(__dirname, './defaults');
+  private readonly iconExtension = '.svg';
   private readonly templateExtension: TemplateFormat;
 
   private features: {[key:string]: DesignSystemFeature} = {};
@@ -55,7 +56,7 @@ export class DesignSystem {
     for (const feature of features) {
       const name = basename(feature, DesignSystem.featureExtension);
       const featureParams = await import(feature);
-      const params: any = {
+      const params: DesignSystemFeatureParams = {
         files: {
           params: feature,
         },
@@ -93,6 +94,12 @@ export class DesignSystem {
         params.template = readFileSync(templatePath, {encoding: 'utf-8'});
       }
 
+      // Search for an Icons folder
+      const iconsPath = join(dirname(feature), name);
+      if (existsSync(iconsPath)) {
+        params.files.icons = find(`${iconsPath}${sep}*${this.iconExtension}`);
+      }
+
       this.setFeature(name, params);
     }
   }
@@ -113,7 +120,7 @@ export class DesignSystem {
     if(typeof this.features[namespace] !== 'undefined') {
       console.log(`Feature "${namespace}" overrided`);
     }
-    this.features[namespace] = new DesignSystemFeature(namespace, params);
+    this.features[namespace] = new DesignSystemFeature(namespace, params, this.output);
   }
 
   public deleteFeature(namespace: string) {

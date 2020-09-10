@@ -1,9 +1,10 @@
 {
   "popins": {
     "name": "Popins",
-    "font-display": "swap",
     "font-face-family": "Popins",
     "_font-family": "\"Popins\", sans-serif",
+    "font-display": "swap",
+    "font-kerning": "normal",
     "responsive": {
       "mobile": {
         "root": 16,
@@ -47,14 +48,14 @@
     "fonts": {
       "light": {
         "name": "Light",
-        "_file": "./typeface/popins-light.woff2",
+        "_file": "./fonts/popins-light.woff2",
         "font-weight": 300,
         "font-style": "normal",
         "css": {}
       },
       "bold": {
         "name": "Bold",
-        "_file": "./typeface/popins-bold.woff2",
+        "_file": "./fonts/popins-bold.woff2",
         "font-weight": 700,
         "font-style": "normal",
         "css": {}

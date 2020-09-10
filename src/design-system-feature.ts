@@ -6,12 +6,17 @@ import {
   DesignSystemFeatureParamsFiles,
   DesignSystemDirectivesPlaceholders, DesignSystemDirectivesFont
 } from './interface';
+import {readFileSync} from 'fs';
+import {dirname, basename} from 'path';
+import imagemin from 'imagemin';
+import imageminSvgo from 'imagemin-svgo';
 
 export class DesignSystemFeature {
 
   public readonly _prefix = 'DS-';
   public readonly _sassDocGroupName = 'Design System';
 
+  private readonly output: string;
   private readonly namespace: string;
   private readonly files: DesignSystemFeatureParamsFiles;
   private readonly desc: string | undefined = undefined;
@@ -22,8 +27,9 @@ export class DesignSystemFeature {
   private params: object;
   private directives: DesignSystemDirectives | undefined = undefined;
 
-  constructor(namespace:string, params: DesignSystemFeatureParams) {
+  constructor(namespace:string, params: DesignSystemFeatureParams, output: string) {
 
+    this.output = output;
     this.namespace = `${this._prefix}${namespace}`;
     this.files = params.files;
     this.params = params.params;
@@ -40,7 +46,7 @@ export class DesignSystemFeature {
     }
 
     if(typeof this.process === 'function'){
-      this.directives = this.process(this.namespace, this.params);
+      this.directives = this.process(this.namespace, this.params, this.output);
     }
   }
 
@@ -57,6 +63,69 @@ export class DesignSystemFeature {
   public getFonts(): {[key: string]: DesignSystemDirectivesFont} | undefined {
 
     return this.directives?.fonts;
+  }
+
+  public setupIcons(iconList: string[]): void {
+
+    (async () => {
+      // @todo: minification KO
+      await imagemin(iconList, {
+        destination: dirname(iconList[0]),
+        plugins: [
+          imageminSvgo({
+            plugins: [
+              {removeViewBox: false}
+            ]
+          })
+        ]
+      });
+    })();
+
+    for(const icon of iconList){
+
+      const path = readFileSync(icon, {encoding: 'utf-8'});
+
+      const iconName = basename(icon, '.svg');
+
+      // let width = null;
+      // let height = null;
+      //
+      // const svgWidthAttr = /<svg[^>]*width="(\d+)(px)?"(.*)>/gi;
+      // if (svgWidthAttr.test(icon)) {
+      //   icon.replace(svgWidthAttr, (match, result) => {
+      //     width = Number.parseFloat(result);
+      //     return result;
+      //   });
+      // }
+      // const svgHeightAttr = /<svg[^>]*height="(\d+)(px)?"(.*)>/gi;
+      // if (svgHeightAttr.test(icon)) {
+      //   icon.replace(svgHeightAttr, (match, result) => {
+      //     height = Number.parseFloat(result);
+      //     return result;
+      //   });
+      // }
+      // const svgViewboxAttr = /<svg[^>]*viewbox="(([0-9 px])*)"(.*)>/gi;
+      // if (width == null && height == null && svgViewboxAttr.test(icon)) {
+      //   icon.replace(svgViewboxAttr, (match, result) => {
+      //     console.log('viewbox ----', iconName);
+      //     const coords = result.replace('px', '').split(' ');
+      //     if (typeof coords[2] !== 'undefined'){
+      //       width = Number.parseFloat(coords[2]);
+      //     }
+      //     if (typeof coords[3] !== 'undefined'){
+      //       height = Number.parseFloat(coords[3]);
+      //     }
+      //     return result;
+      //   });
+      // }
+      //
+      // this.params[iconName] = {
+      //   file: iconName,
+      //   width,
+      //   height,
+      //   _path: `data:image/svg+xml;charset=utf-8,${path}`,
+      // };
+    }
   }
 
   public exportFonts(): string {

@@ -2,7 +2,7 @@ export type OutputFormat = 'css' | 'scss';
 export type TemplateFormat = '.twig' | '.vue';
 
 export type DesignSystemPreprocessFunction = (self: object) => any;
-export type DesignSystemProcessFunction = (prefix: string, params: any) => DesignSystemDirectives;
+export type DesignSystemProcessFunction = (prefix: string, params: any, output?: string) => DesignSystemDirectives;
 
 export interface DesignSystemFeatureParams {
   files: DesignSystemFeatureParamsFiles;
@@ -16,8 +16,10 @@ export interface DesignSystemFeatureParams {
 export interface DesignSystemFeatureParamsFiles {
   params: string;
   desc?: string;
+  preprocess?: string;
   process?: string;
   template?: string;
+  icons?: string[];
 }
 
 /**

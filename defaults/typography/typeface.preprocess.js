@@ -3,9 +3,6 @@ exports.default = (DesignSystemFeatureObj) => {
   const typescales = require('./typescales.json');
   const output = {};
 
-  // Font sizes unit
-  const unit = 'px';
-
   // How many sizes do we need. Default is from down-2 to up-8
   const howManySizes = {
     down: 2,
@@ -44,17 +41,8 @@ exports.default = (DesignSystemFeatureObj) => {
           value = Math.ceil(value);
         }
 
-        DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'][prefix] = `${value}${unit}`;
+        DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'][prefix] = `${value}`;
       }
-
-      // if(
-      //   typeof DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes-specifics'].constructor !== 'undefined'
-      //   && DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes-specifics'].constructor === Array
-      // ){
-      //   for(const fsSpecific of DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes-specifics']) {
-      //     DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'][`sp-${fsSpecific}`] = `${fsSpecific}px`;
-      //   }
-      // }
     }
 
     for (const [name, values] of Object.entries(font['font-sizes-specifics'])) {
@@ -62,7 +50,7 @@ exports.default = (DesignSystemFeatureObj) => {
         if(
           typeof DesignSystemFeatureObj.params[fontname].responsive[breakpoint] !== 'undefined'
           && DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'] !== 'undefined'){
-          DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'][name] = `${value}${unit}`;
+          DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'][name] = `${value}`;
         }
       }
     }
