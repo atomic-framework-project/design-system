@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const urlencode = require('urlencode');
 
 exports.default = async (DesignSystemFeatureObj) => {
 

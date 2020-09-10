@@ -21,7 +21,6 @@ export default async function proceed() {
     await DesignSystemObj.setup();
     DesignSystemObj.writeCssFile();
     DesignSystemObj.writeSassFile();
-    process.exit(0);
   }
   else {
 

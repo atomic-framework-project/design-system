@@ -1,9 +1,7 @@
-const unicode = require('unicode/category/Ll');
+const path = require('path');
+const webfontsGenerator = require('webfonts-generator');
 
 exports.default = (prefix, params, output) => {
-
-  const unicodeTable = Object.keys(unicode);
-  const excludedChars = ['࿕', '࿖', '࿗', '࿘'];
 
   // Placeholders
   const designSystemDirectives = {
@@ -14,7 +12,7 @@ exports.default = (prefix, params, output) => {
 
   const namespaceFont = `webfont-icons`;
   designSystemDirectives.fonts[namespaceFont] = {
-    'file': `./${namespaceFont}.woff2`,
+    file: `./${namespaceFont}.woff2`,
     css: {
       'font-family': `"${namespaceFont}"`,
       'font-display': 'swap',
@@ -37,40 +35,37 @@ exports.default = (prefix, params, output) => {
     }
   };
 
+  let iconsCodepoints = {};
+  webfontsGenerator ({
+    files: Object.values(params).map(elt => elt.file.substring(0, elt.file.length - 1).substring(1, elt.file.length - 1)),
+    css: false,
+    dest: output,
+    fontName: namespaceFont,
+    types: ['woff2'],
+  }, function(error) {
+    if (error) {
+      console.log('Error creating icons font', error);
+    }
+  });
+
+  // Setup corresponding codepoint to webfontsGenerator module
+  const startingCodepoint = 61697; // 0xF101
+  const codepoints = [];
+  for(let i = 61697; i < (startingCodepoint + Object.keys(params).length); i++) {
+    codepoints.push(i.toString(16));
+  }
+
   let index = 0;
   for(const [iconNamespace, icon] of Object.entries(params)) {
 
     const namespace = `${prefix}-${iconNamespace}`;
-
-    // const glyph = createReadStream(`${Icons.iconsRelPath}${iconName}`);
-    let character = unicode[unicodeTable[index]].symbol;
-
-    while(excludedChars.indexOf(character) !== -1) {
-      index++;
-      character = unicode[unicodeTable[index]].symbol;
-    }
-
-    // glyph.metadata = {
-    //   unicode: [character],
-    //   name: id
-    // };
-    // fontStream.write(glyph);
-    //
-
-    // this.webfontIcons[`${id}`] = {
-    //   ...DesignSystemFeatureObj.extractSvgSize(iconMarkupOptimized),
-    //   filename: iconName,
-    //   unicode: `\\${unicodeTable[Icons.unicodeTableKeys[index]].value}`,
-    //   _path: `data:image/svg+xml;charset=utf-8,${urlencode(await iconPath)}`,
-    // };
-
     designSystemDirectives.sassPlaceholders[`%${namespace}`] = {
       sassdoc: {
         '@name': `${namespace}`,
       },
       css: {
         '@extend': [`%${namespaceFont}`],
-        content: `"\\${unicode[unicodeTable[index]].value}"`,
+        content: `"\\${codepoints[index]}"`,
         width: `${icon.width}px`,
         height: `${icon.height}px`,
       }
