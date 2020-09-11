@@ -35,7 +35,8 @@ Handles the following frontend features:
 - Typefaces following [type-scale](https://type-scale.com/) best practice
 
 ## Example 
-- 1: Create an `index.js` file at your project's root and put the following code  
+- 1: Require module `npm install --save @atomic-framework/design-system`  
+- 2: Create an `index.js` file at your project's root and put the following code  
 ``` javascript
 const DesignSystem = require('@atomic-framework/design-system');
 
@@ -49,10 +50,10 @@ const DesignSystem = require('@atomic-framework/design-system');
   DesignSystemObj.writeFiles();
 })();
 ```
-- 2: Create a `./design-system` folder at your project's root
-- 3: Fork default **[colors.json](https://github.com/atomic-framework-project/design-system/blob/master/defaults/colors/colors.json)** config file and put your own colors
-- 4: run command `node index.js`
-- 5: Open `./dist/design-system.css` and `./dist/design-system.scss` file to see the result
+- 3: Create a `./design-system` folder at your project's root
+- 4: Fork default **[colors.json](https://github.com/atomic-framework-project/design-system/blob/master/defaults/colors/colors.json)** config file and put your own colors
+- 5: run command `node index.js`
+- 6: Open `./dist/design-system.css` and `./dist/design-system.scss` file to see the result
 
 ## @todo
 - Finish readme.md
