@@ -4,7 +4,7 @@ import {format as prettierFormat} from 'prettier';
 import {writeFileSync, readFileSync, existsSync, ensureDirSync} from 'fs-extra';
 import {resolve, basename, dirname, sep, join, relative} from 'path';
 import {find} from 'globule';
-import _ from 'lodash';
+import lodashMerge from 'lodash/merge';
 
 export default class DesignSystem {
 
@@ -122,12 +122,12 @@ export default class DesignSystem {
 
     if(typeof this.features[namespace] !== 'undefined') {
       const newParams = params.params;
-      params = _.merge(this.features[namespace].getConfig(), params);
+      params = lodashMerge(this.features[namespace].getConfig(), params);
 
       // Override params key only and keep merge for others features
       params.params = newParams;
 
-      console.log(`Feature "${namespace}" overrides default colors`);
+      console.log(`Feature "${namespace}" overrides default ${namespace}`);
     }
     this.features[namespace] = new DesignSystemFeature(namespace, params, this.output);
   }
