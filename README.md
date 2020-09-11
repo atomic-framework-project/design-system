@@ -38,13 +38,12 @@ Handles the following frontend features:
 - 1: Require module `npm install --save @atomic-framework/design-system`  
 - 2: Create an `index.js` file at your project's root and put the following code  
 ``` javascript
-const DesignSystem = require('@atomic-framework/design-system');
+const DesignSystem = require('@atomic-framework/design-system').DesignSystem;
 
 (async () => {
   const DesignSystemObj = new DesignSystem(
     './design-system',
-    './dist',
-    '.vue'
+    './dist'
   );
   await DesignSystemObj.setup();
   DesignSystemObj.writeFiles();
