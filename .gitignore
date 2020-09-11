@@ -4,6 +4,7 @@ node_modules
 # Output DIR
 lib
 dist
+temp
 
 # IDE Files
 .idea
