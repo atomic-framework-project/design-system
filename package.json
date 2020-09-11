@@ -1,6 +1,6 @@
 {
   "name": "@atomic-framework/design-system",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "From Designer params to read-to-use Frontend material",
   "main": "lib/design-system.js",
   "types": "lib/design-system.d.ts",
@@ -11,7 +11,8 @@
     "node": ">=14"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "defaults/**/*"
   ],
   "scripts": {
     "test": "jest --passWithNoTests --config jestconfig.json",
