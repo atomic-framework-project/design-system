@@ -2,12 +2,13 @@ import {TemplateFormat, DesignSystemFeatureParams, DesignSystemPreprocessFunctio
 import {DesignSystemFeature} from './design-system-feature';
 import {format as prettierFormat} from 'prettier';
 import {writeFileSync, readFileSync, existsSync, ensureDirSync} from 'fs-extra';
-import {resolve, basename, dirname, sep, join} from 'path';
+import {resolve, basename, dirname, sep, join, relative} from 'path';
 import {find} from 'globule';
+import _ from 'lodash';
 
 export class DesignSystem {
 
-  private readonly defaults: string = resolve(__dirname, './defaults');
+  private readonly defaults: string = resolve(process.cwd(), resolve(__dirname, './../defaults'));
   private readonly iconExtension = '.svg';
   private readonly templateExtension: TemplateFormat;
 
@@ -42,7 +43,9 @@ export class DesignSystem {
 
   public async setup() {
     await this.exploreFolder(this.defaults);
-    // await this.exploreFolder(this.entry);
+    if(this.entry !== this.defaults) {
+      await this.exploreFolder(this.entry);
+    }
     this.getFonts();
     this.getCssVars();
     this.getSassMaps();
@@ -51,7 +54,7 @@ export class DesignSystem {
 
   public async exploreFolder(entry: string = this.entry) {
 
-    const features = find(`**/*${DesignSystem.featureExtension}`, {srcBase: this.entry, prefixBase: true});
+    const features = find(`**/*${DesignSystem.featureExtension}`, {srcBase: entry, prefixBase: true});
 
     for (const feature of features) {
       const name = basename(feature, DesignSystem.featureExtension);
@@ -118,9 +121,16 @@ export class DesignSystem {
   public setFeature(namespace: string, params: DesignSystemFeatureParams) {
 
     if(typeof this.features[namespace] !== 'undefined') {
-      console.log(`Feature "${namespace}" overrided`);
+      const newParams = params.params;
+      params = _.merge(this.features[namespace].getConfig(), params);
+
+      // Override params key only and keep merge for others features
+      params.params = newParams;
+
+      console.log(`Feature "${namespace}" overrides default colors`);
     }
     this.features[namespace] = new DesignSystemFeature(namespace, params, this.output);
+    // console.log(namespace, params);
   }
 
   public deleteFeature(namespace: string) {

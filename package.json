@@ -24,7 +24,7 @@
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
-    "proceed": "node ./lib/index.js -entry ./defaults -output ./dist -format .vue"
+    "proceed": "node ./lib/index.js -entry ./temp -output ./dist -format .vue"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "@types/fs-extra": "^9.0.1",
     "@types/globule": "^1.1.3",
     "@types/jest": "^26.0.13",
+    "@types/lodash": "^4.14.161",
     "@types/svgo": "^1.3.3",
     "@types/urlencode": "^1.1.2",
     "jest": "^26.4.2",
@@ -50,10 +51,11 @@
     "typescript": "^4.0.2"
   },
   "dependencies": {
-    "urlencode": "^1.1.0",
-    "webfonts-generator": "^0.4.0",
-    "svgo": "^1.3.2",
+    "fs-extra": "^9.0.1",
     "globule": "^1.3.2",
-    "fs-extra": "^9.0.1"
+    "lodash": "^4.17.20",
+    "svgo": "^1.3.2",
+    "urlencode": "^1.1.0",
+    "webfonts-generator": "^0.4.0"
   }
 }

@@ -327,6 +327,25 @@ export class DesignSystemFeature {
     return this.params;
   }
 
+  public getConfig(): DesignSystemFeatureParams {
+
+    return {
+      files: {
+        params: this.files.params,
+        desc: this.files.desc,
+        preprocess: this.files.preprocess,
+        process: this.files.process,
+        template: this.files.template,
+        icons: this.files.icons,
+      },
+      params: this.params,
+      desc: this.desc,
+      preprocess: this.preprocess,
+      process: this.process,
+      template: this.template,
+    };
+  }
+
   public getDescription() {
 
     return this.desc;
