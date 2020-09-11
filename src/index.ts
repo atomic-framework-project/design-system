@@ -19,8 +19,7 @@ export default async function proceed() {
 
     const DesignSystemObj = new DesignSystem(process.argv[3], process.argv[5], process.argv[7] as TemplateFormat);
     await DesignSystemObj.setup();
-    DesignSystemObj.writeCssFile();
-    DesignSystemObj.writeSassFile();
+    DesignSystemObj.writeFiles();
   }
   else {
 
