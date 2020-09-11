@@ -1,5 +1,5 @@
 import {TemplateFormat} from './interface';
-import DesignSystem from "./design-system";
+import {DesignSystem} from "./design-system";
 
 export default async function proceed() {
 
