@@ -6,7 +6,7 @@ import {resolve, basename, dirname, sep, join, relative} from 'path';
 import {find} from 'globule';
 import lodashMerge from 'lodash/merge';
 
-export default class DesignSystem {
+export class DesignSystem {
 
   private readonly defaults: string = resolve(process.cwd(), resolve(__dirname, './../defaults'));
   private readonly iconExtension = '.svg';
