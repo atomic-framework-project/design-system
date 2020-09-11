@@ -130,7 +130,6 @@ export class DesignSystem {
       console.log(`Feature "${namespace}" overrides default colors`);
     }
     this.features[namespace] = new DesignSystemFeature(namespace, params, this.output);
-    // console.log(namespace, params);
   }
 
   public deleteFeature(namespace: string) {
