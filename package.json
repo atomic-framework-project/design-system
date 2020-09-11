@@ -10,6 +10,16 @@
   "engines": {
     "node": ">=14"
   },
+  "keywords": [
+    "Frontend",
+    "Atomic",
+    "Design",
+    "Styleguide",
+    "Sass",
+    "Framework",
+    "Design System",
+    "Typescale"
+  ],
   "files": [
     "lib/**/*",
     "defaults/**/*"
