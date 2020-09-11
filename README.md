@@ -1,7 +1,32 @@
-# design-system
-From designer params to ready-to-use Frontend material
-
+# Atomic Framework: design-system
+From designer params to ready-to-use Frontend material  
 Generates `css`/`scss` files based on set of `json` config files
+
+## Overview
+#### From...
+``` json
+{
+  "brand": {
+    "primary": {
+      "value": "#545afb"
+    }
+  }
+}
+```
+#### ...to
+``` scss
+:root {--DS-colors-brand-primary: #545afb;}
+
+$DS-colors: (
+  "brand": (
+    "primary"
+  )
+)
+
+%DS-colors-brand-primary-color {color: var(--DS-colors-brand-primary);}
+%DS-colors-brand-primary-background {background-color: var(--DS-colors-brand-primary);}
+%DS-colors-brand-primary-border {border-color: var(--DS-colors-brand-primary);}
+```
 
 Handles the following frontend features:
 - Css vars
@@ -9,9 +34,29 @@ Handles the following frontend features:
 - Icons (both to dataUrl and to webfont usage)
 - Typefaces following [type-scale](https://type-scale.com/) best practice
 
-## usage 
+## Example 
+- 1: Create an `index.js` file at your project's root and put the following code  
+``` javascript
+const DesignSystem = require('@atomic-framework/design-system');
 
-### @todo
+(async () => {
+  const DesignSystemObj = new DesignSystem(
+    './design-system',
+    './dist',
+    '.vue'
+  );
+  await DesignSystemObj.setup();
+  DesignSystemObj.writeFiles();
+})();
+```
+- 2: Create a `./design-system` folder at your project's root
+- 3: Fork default **[colors.json](https://github.com/atomic-framework-project/design-system/blob/master/defaults/colors/colors.json)** config file and put your own colors
+- 4: run command `node index.js`
+- 5: Open `./dist/design-system.css` and `./dist/design-system.scss` file to see the result
+
+## @todo
 - Finish readme.md
-- Export Typescript types
+- Add advanced usages
 - Add templates for a Styleguide (Expected formats: .twig | .vue | .jsx)
+- Export Typescript types
+- Add Jest tests
