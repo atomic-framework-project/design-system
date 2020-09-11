@@ -179,7 +179,12 @@ export class DesignSystem {
     return this.sassPlaceholders;
   };
 
-  public writeCssFile() {
+  public writeFiles() {
+    this.writeCssFile();
+    this.writeSassFile();
+  }
+
+  public writeCssFile(output: string = this.output) {
 
     const source = `
       /* ${DesignSystem.outputMsg} */
@@ -190,10 +195,10 @@ export class DesignSystem {
     `;
 
     ensureDirSync(this.output);
-    writeFileSync(`${this.output}${sep}design-system.css`, prettierFormat(source, {parser: 'css'}), {encoding: 'utf-8'});
+    writeFileSync(`${output}${sep}design-system.css`, prettierFormat(source, {parser: 'css'}), {encoding: 'utf-8'});
   }
 
-  public writeSassFile() {
+  public writeSassFile(output: string = this.output) {
 
     const source = `
       // ${DesignSystem.outputMsg}
@@ -240,6 +245,6 @@ export class DesignSystem {
     `;
 
     ensureDirSync(this.output);
-    writeFileSync(`${this.output}${sep}design-system.scss`, prettierFormat(source, {parser: 'scss'}), {encoding: 'utf-8'});
+    writeFileSync(`${output}${sep}design-system.scss`, prettierFormat(source, {parser: 'scss'}), {encoding: 'utf-8'});
   }
 }
