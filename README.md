@@ -2,6 +2,11 @@
 From designer params to ready-to-use Frontend material  
 Generates `css`/`scss` files based on set of `json` config files
 
+- [Overview](#overview)
+- [Example](#example)
+- [Advanced usages](#advanced-usages)
+- [Todo](#todo)
+
 ## Overview
 #### From...
 ``` json
@@ -14,18 +19,22 @@ Generates `css`/`scss` files based on set of `json` config files
 }
 ```
 #### ...to
-``` scss
+``` css
 :root {--DS-colors-brand-primary: #545afb;}
-
-$DS-colors: (
-  "brand": (
-    "primary"
-  )
-)
-
+```
+``` scss
 %DS-colors-brand-primary-color {color: var(--DS-colors-brand-primary);}
 %DS-colors-brand-primary-background {background-color: var(--DS-colors-brand-primary);}
 %DS-colors-brand-primary-border {border-color: var(--DS-colors-brand-primary);}
+```
+``` scss
+$DS-colors: (
+  "brand": (
+    "primary": (
+      "value": #545afb",
+    )
+  )
+)
 ```
 
 Handles the following frontend features:
@@ -54,9 +63,12 @@ const DesignSystem = require('@atomic-framework/design-system').DesignSystem;
 - 5: run command `node index.js`
 - 6: Open `./dist/design-system.css` and `./dist/design-system.scss` file to see the result
 
+## Advanced usages
+@todo: Finish advanced usages
+
 ## @todo
 - Finish readme.md
-- Add advanced usages
+- Write advanced usages
 - Add templates for a Styleguide (Expected formats: .twig | .vue | .jsx)
 - Export Typescript types
 - Add Jest tests
