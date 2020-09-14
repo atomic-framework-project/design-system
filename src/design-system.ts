@@ -107,6 +107,11 @@ export class DesignSystem {
     }
   }
 
+  public getFeatures(): {[key:string]: DesignSystemFeature} {
+
+    return this.features;
+  }
+
   public getFeature(name: string): DesignSystemFeature | null {
 
     if(typeof this.features[name] !== 'undefined'){
