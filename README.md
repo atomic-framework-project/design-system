@@ -50,12 +50,12 @@ Handles the following frontend features:
 const DesignSystem = require('@atomic-framework/design-system').DesignSystem;
 
 (async () => {
-  const DesignSystemObj = new DesignSystem(
+  const ds = new DesignSystem(
     './design-system',
     './dist'
   );
-  await DesignSystemObj.setup();
-  DesignSystemObj.writeFiles();
+  await ds.setup();
+  ds.writeFiles();
 })();
 ```
 - 3: Create a `./design-system` folder at your project's root
@@ -73,3 +73,4 @@ const DesignSystem = require('@atomic-framework/design-system').DesignSystem;
 - Export Typescript types
 - Add Jest tests
 - Unify default icons
+- Set output as optional parameter
