@@ -1,17 +1,21 @@
 {% for group, colors in datas %}
   <div>
     <h3>{{ group }}</h3>
-    {% if colors._desc is defined %}
-      <p>{{ colors._desc }}</p>
-    {% endif %}
     <div class="sg-MainContent-list--column">
-      {% for name, color in colors %}
-        {% if name != '_desc' %}
-          <div class="sg-Card" style="background-color:{{ color }};">
+      {% for colorname, color in colors %}
+        <div class="sg-Card" style="background-color:{{ color.value }};">
+            <div>
+                <span>{{ colorname }}</span><span>{{ color }}</span>
+            </div>
+        </div>
+        {% if color.declinaisons is defined %}
+          {% for decliname, decli in color.declinaisons %}
+            <div class="sg-Card" style="background-color:{{ decli }};">
               <div>
-                  <span>{{ name }}</span><span>{{ color }}</span>
+                <span>{{ decliname }}</span><span>{{ decli }}</span>
               </div>
-          </div>
+            </div>
+          {% endfor %}
         {% endif %}
       {% endfor %}
     </div>
