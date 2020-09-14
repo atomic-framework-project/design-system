@@ -62,9 +62,9 @@ exports.default = (prefix, params, output) => {
       for (const [breakpoint, responsive] of Object.entries(font.responsive)) {
         for (const [suffix, value] of Object.entries(responsive['font-sizes'])) {
 
-          const namespaceFontSize = `${prefix}-${fontname}-${suffix}`;
-          const namespaceFontSizeHeading = `${prefix}-heading-${fontname}-${suffix}`;
-          const namespaceFontSizeText = `${prefix}-text-${fontname}-${suffix}`;
+          const namespaceFontSize = `${namespaceVariant}-${suffix}`;
+          const namespaceFontSizeHeading = `${namespaceVariant}-heading-${suffix}`;
+          const namespaceFontSizeText = `${namespaceVariant}-text-${suffix}`;
 
           // If key doesn't exists yet
           if (typeof designSystemDirectives.sassPlaceholders[`%${namespaceFontSize}`] === 'undefined') {
