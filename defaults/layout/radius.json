@@ -2,6 +2,6 @@
   "circle": ["50%"],
   "rounded": ["9999rem"],
   "large": 15,
-  "std": 5,
+  "standard": 5,
   "small": 3
 }
