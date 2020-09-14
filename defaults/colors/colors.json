@@ -66,6 +66,9 @@
         "lighten": "#6f76fa",
         "darken": "#e0e0fa"
       }
+    },
+    "neutral": {
+      "value": "#dddddd"
     }
   },
   "system": {
