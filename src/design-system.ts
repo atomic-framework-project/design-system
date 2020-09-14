@@ -240,20 +240,20 @@ export class DesignSystem {
       }
       
       /// Retrieve any value from a Design System map
-      /// @name get-design-system
+      /// @name get-DS
       /// @group Core
       /// @param {map} $map Design system map targeted
       /// @param {list} $keys List of map keys tree to the value
       /// @example scss - Usage
       /// .foo {
-      ///   right: #{get-design-system($design-system-spacing, 'block' 'std')}px;
+      ///   right: #{get-DS($DS-spacing, 'block' 'std')}px;
       /// }
       /// @example css - Output
       /// .foo {
       ///   right: 16px;
       /// }
       
-      @function get-design-system($map, $keys) {
+      @function get-DS($map, $keys) {
         @each $key in $keys {
           @if map-has-key($map, $key) {
             $map: map-get($map, $key);
