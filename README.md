@@ -72,3 +72,4 @@ const DesignSystem = require('@atomic-framework/design-system').DesignSystem;
 - Add templates for a Styleguide (Expected formats: .twig | .vue | .jsx)
 - Export Typescript types
 - Add Jest tests
+- Unify default icons
