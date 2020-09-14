@@ -68,7 +68,7 @@ const DesignSystem = require('@atomic-framework/design-system').DesignSystem;
 
 ## @todo
 - Finish readme.md
-- Write advanced usages
+- Write advanced usages in readme
 - Add templates for a Styleguide (Expected formats: .twig | .vue | .jsx)
 - Export Typescript types
 - Add Jest tests
