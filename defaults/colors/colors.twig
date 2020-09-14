@@ -1,0 +1,19 @@
+{% for group, colors in datas %}
+  <div>
+    <h3>{{ group }}</h3>
+    {% if colors._desc is defined %}
+      <p>{{ colors._desc }}</p>
+    {% endif %}
+    <div class="sg-MainContent-list--column">
+      {% for name, color in colors %}
+        {% if name != '_desc' %}
+          <div class="sg-Card" style="background-color:{{ color }};">
+              <div>
+                  <span>{{ name }}</span><span>{{ color }}</span>
+              </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}
