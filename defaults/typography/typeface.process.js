@@ -43,7 +43,7 @@ exports.default = (prefix, params, output) => {
       if(fs.existsSync(fontPath)) {
         // @font-face case
         designSystemDirectives.fonts[namespaceVariantSuffix] = {
-          file: path.relative(output, fontPath),
+          file: fontPath,
           css: {
             'font-family': `"${font['font-face-family']}"`,
             'font-display': font['font-display'],

@@ -203,7 +203,7 @@ export class DesignSystem {
     const source = `
       // ${DesignSystem.outputMsg}
       
-      @import './design-system.css';
+      @import '${resolve(this.output, 'design-system.css')}';
       
       ${this.fonts}
       
