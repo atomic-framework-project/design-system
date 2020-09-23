@@ -29,13 +29,12 @@
 
 <script>
   export default {
-    name: 'colors',
     props: {
       datas: {
-        type: Object,
-        default: () => {
-          {}
-        }
+          type: Object,
+          default: () => {
+              {}
+          }
       }
     }
   }
