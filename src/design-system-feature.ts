@@ -15,6 +15,7 @@ export class DesignSystemFeature {
 
   private readonly output: string;
   private readonly namespace: string;
+  private readonly dirname: string;
   private readonly files: DesignSystemFeatureParamsFiles;
   private readonly desc: string | undefined = undefined;
   private readonly preprocess: DesignSystemPreprocessFunction = (): object => {return {}};
@@ -28,6 +29,7 @@ export class DesignSystemFeature {
 
     this.output = output;
     this.namespace = `${this._prefix}${namespace}`;
+    this.dirname = params.dirname;
     this.files = params.files;
     this.params = params.params;
     typeof params.desc === 'string' ? this.desc = params.desc : this.desc = undefined;
@@ -48,7 +50,7 @@ export class DesignSystemFeature {
     }
 
     if(typeof this.process === 'function'){
-      this.directives = this.process(this.namespace, this.params, this.output);
+      this.directives = this.process(this.namespace, this.params, this.output, this.dirname);
     }
   }
 
@@ -330,6 +332,7 @@ export class DesignSystemFeature {
   public getConfig(): DesignSystemFeatureParams {
 
     return {
+      dirname: this.dirname,
       files: {
         params: this.files.params,
         desc: this.files.desc,

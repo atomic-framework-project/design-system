@@ -60,6 +60,7 @@ export class DesignSystem {
       const name = basename(feature, DesignSystem.featureExtension);
       const featureParams = await import(feature);
       const params: DesignSystemFeatureParams = {
+        dirname: dirname(feature),
         files: {
           params: feature,
         },

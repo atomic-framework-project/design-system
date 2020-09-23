@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-exports.default = (prefix, params, output) => {
+exports.default = (prefix, params, output, dirname) => {
 
   // Font sizes unit
   const unit = 'px';
@@ -38,12 +38,15 @@ exports.default = (prefix, params, output) => {
         }
       };
 
-      const fontPath = path.join(__dirname, variant._file);
+      const fontPath = path.resolve(dirname, variant._file);
       // Test for local file @todo: Replace for a search on "http(s)" protocol or "//" url ?
+      console.log('ln43', fontPath);
+      console.log('ln44', output);
+      console.log('ln45', path.relative(output, fontPath));
       if(fs.existsSync(fontPath)) {
         // @font-face case
         designSystemDirectives.fonts[namespaceVariantSuffix] = {
-          file: fontPath,
+          file: path.relative(output, fontPath),
           css: {
             'font-family': `"${font['font-face-family']}"`,
             'font-display': font['font-display'],
