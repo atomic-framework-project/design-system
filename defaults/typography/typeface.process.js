@@ -40,9 +40,6 @@ exports.default = (prefix, params, output, dirname) => {
 
       const fontPath = path.resolve(dirname, variant._file);
       // Test for local file @todo: Replace for a search on "http(s)" protocol or "//" url ?
-      console.log('ln43', fontPath);
-      console.log('ln44', output);
-      console.log('ln45', path.relative(output, fontPath));
       if(fs.existsSync(fontPath)) {
         // @font-face case
         designSystemDirectives.fonts[namespaceVariantSuffix] = {
