@@ -46,10 +46,6 @@ export class DesignSystemFeature {
     if(typeof this.process === 'function'){
       this.directives = this.process(this.namespace, this.params, this.output, this.dirname);
     }
-
-    if(this.namespace === 'DS-typeface'){
-      console.log(this.getDirectives().fonts);
-    }
   }
 
   public getSassPlaceholders(): {[key: string]: DesignSystemDirectivesPlaceholders} | undefined {

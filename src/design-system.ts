@@ -130,7 +130,6 @@ export class DesignSystem {
 
       // Clearing feature old params and old directives
       this.features[namespace].clearParams();
-      // console.log(this.features[namespace].getDirectives());
       this.features[namespace].clearDirectives();
 
       // Merging all other params
