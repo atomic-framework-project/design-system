@@ -7,7 +7,7 @@ export type DesignSystemProcessFunction = (prefix: string, params: any, output?:
 export interface DesignSystemFeatureParams {
   dirname: string;
   files: DesignSystemFeatureParamsFiles;
-  params: object;
+  params: any;
   desc?: string;
   preprocess?: DesignSystemPreprocessFunction;
   process?: DesignSystemProcessFunction;
@@ -30,7 +30,7 @@ export interface DesignSystemDirectives {
   bypassMap?: boolean,
   fonts?: {[key: string]: DesignSystemDirectivesFont};
   cssVars?: {[key: string]: string};
-  sassPlaceholders: {[key: string]: DesignSystemDirectivesPlaceholders};
+  sassPlaceholders?: {[key: string]: DesignSystemDirectivesPlaceholders};
 }
 
 export interface DesignSystemDirectivesFont {

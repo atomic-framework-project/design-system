@@ -14,30 +14,24 @@ export class DesignSystemFeature {
   public readonly _sassDocGroupName = 'Design System';
 
   private readonly output: string;
-  private readonly namespace: string;
-  private readonly dirname: string;
-  private readonly files: DesignSystemFeatureParamsFiles;
-  private readonly desc: string | undefined = undefined;
-  private readonly preprocess: DesignSystemPreprocessFunction = (): object => {return {}};
-  private readonly process: DesignSystemProcessFunction | undefined = undefined;
-  private readonly template: string | undefined = undefined;
+  private namespace: string;
+  private dirname: string = '';
+  private files: DesignSystemFeatureParamsFiles;
+  private desc: string | undefined = undefined;
+  private preprocess: DesignSystemPreprocessFunction = (): object => {return {}};
+  private process: DesignSystemProcessFunction | undefined = undefined;
+  private template: string | undefined = undefined;
 
-  private params: object;
-  private directives: DesignSystemDirectives | undefined = undefined;
+  private params: any = {};
+  private directives: DesignSystemDirectives = {};
 
   constructor(namespace:string, params: DesignSystemFeatureParams, output: string) {
 
     this.output = output;
     this.namespace = `${this._prefix}${namespace}`;
-    this.dirname = params.dirname;
     this.files = params.files;
-    this.params = params.params;
-    typeof params.desc === 'string' ? this.desc = params.desc : this.desc = undefined;
-    if(typeof params.preprocess === 'function') {this.preprocess = params.preprocess}
-    if(typeof params.process === 'function') {this.process = params.process}
-    typeof params.template === 'string' ? this.template = params.template : this.template = undefined;
 
-    this.setup();
+    this.setConfig(params);
   }
 
   public async setup(): Promise<void> {
@@ -51,6 +45,10 @@ export class DesignSystemFeature {
 
     if(typeof this.process === 'function'){
       this.directives = this.process(this.namespace, this.params, this.output, this.dirname);
+    }
+
+    if(this.namespace === 'DS-typeface'){
+      console.log(this.getDirectives().fonts);
     }
   }
 
@@ -309,7 +307,12 @@ export class DesignSystemFeature {
     return output;
   }
 
-  public getDirectives() {
+  public clearDirectives(): void {
+
+    this.directives = {};
+  }
+
+  public getDirectives(): DesignSystemDirectives {
 
     return this.directives;
   }
@@ -347,6 +350,24 @@ export class DesignSystemFeature {
       process: this.process,
       template: this.template,
     };
+  }
+
+  public setConfig(params: DesignSystemFeatureParams) {
+
+    this.dirname = params.dirname;
+    this.files = params.files;
+    this.params = params.params;
+    typeof params.desc === 'string' ? this.desc = params.desc : this.desc = undefined;
+    if(typeof params.preprocess === 'function') {this.preprocess = params.preprocess}
+    if(typeof params.process === 'function') {this.process = params.process}
+    typeof params.template === 'string' ? this.template = params.template : this.template = undefined;
+
+    this.setup();
+  }
+
+  public clearParams(): void {
+
+    this.params = {};
   }
 
   public getDescription() {

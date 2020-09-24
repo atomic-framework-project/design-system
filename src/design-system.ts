@@ -124,18 +124,25 @@ export class DesignSystem {
     }
   }
 
-  public setFeature(namespace: string, params: DesignSystemFeatureParams) {
+  public setFeature(namespace: string, config: DesignSystemFeatureParams) {
 
     if(typeof this.features[namespace] !== 'undefined') {
-      const newParams = params.params;
-      params = lodashMerge(this.features[namespace].getConfig(), params);
 
-      // Override params key only and keep merge for others features
-      params.params = newParams;
+      // Clearing feature old params and old directives
+      this.features[namespace].clearParams();
+      // console.log(this.features[namespace].getDirectives());
+      this.features[namespace].clearDirectives();
+
+      // Merging all other params
+      const mergedConfig = lodashMerge(this.features[namespace].getConfig(), config);
+
+      this.features[namespace].setConfig(mergedConfig);
 
       console.log(`Feature "${namespace}" overrides default ${namespace}`);
     }
-    this.features[namespace] = new DesignSystemFeature(namespace, params, this.output);
+    else {
+      this.features[namespace] = new DesignSystemFeature(namespace, config, this.output);
+    }
   }
 
   public deleteFeature(namespace: string) {
