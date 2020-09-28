@@ -1,6 +1,6 @@
 {
   "name": "@atomic-framework/design-system",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "From Designer params to read-to-use Frontend material",
   "main": "lib/design-system.js",
   "types": "lib/design-system.d.ts",
@@ -9,6 +9,9 @@
   },
   "engines": {
     "node": ">=14"
+  },
+  "resolutions": {
+    "ttf2woff2": "^3.0.0"
   },
   "keywords": [
     "Frontend",
@@ -25,6 +28,7 @@
     "defaults/**/*"
   ],
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "test": "jest --passWithNoTests --config jestconfig.json",
     "dev": "npx tsc -w",
     "build": "npx tsc",
