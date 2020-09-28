@@ -2,11 +2,12 @@ export type OutputFormat = 'css' | 'scss';
 export type TemplateFormat = '.twig' | '.vue';
 
 export type DesignSystemPreprocessFunction = (self: object) => any;
-export type DesignSystemProcessFunction = (prefix: string, params: any, output?: string) => DesignSystemDirectives;
+export type DesignSystemProcessFunction = (prefix: string, params: any, output?: string, dirname?: string) => DesignSystemDirectives;
 
 export interface DesignSystemFeatureParams {
+  dirname: string;
   files: DesignSystemFeatureParamsFiles;
-  params: object;
+  params: any;
   desc?: string;
   preprocess?: DesignSystemPreprocessFunction;
   process?: DesignSystemProcessFunction;
@@ -29,7 +30,7 @@ export interface DesignSystemDirectives {
   bypassMap?: boolean,
   fonts?: {[key: string]: DesignSystemDirectivesFont};
   cssVars?: {[key: string]: string};
-  sassPlaceholders: {[key: string]: DesignSystemDirectivesPlaceholders};
+  sassPlaceholders?: {[key: string]: DesignSystemDirectivesPlaceholders};
 }
 
 export interface DesignSystemDirectivesFont {

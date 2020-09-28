@@ -41,15 +41,15 @@ export class DesignSystem {
     }
   }
 
-  public async setup() {
+  public async setup(): Promise<void> {
     await this.exploreFolder(this.defaults);
     if(this.entry !== this.defaults) {
       await this.exploreFolder(this.entry);
     }
-    this.getFonts();
-    this.getCssVars();
-    this.getSassMaps();
-    this.getSassPlaceholders();
+    this.fonts = this.getFonts();
+    this.cssVars = this.getCssVars();
+    this.sassMaps = this.getSassMaps();
+    this.sassPlaceholders = this.getSassPlaceholders();
   }
 
   public async exploreFolder(entry: string = this.entry) {
@@ -60,6 +60,7 @@ export class DesignSystem {
       const name = basename(feature, DesignSystem.featureExtension);
       const featureParams = await import(feature);
       const params: DesignSystemFeatureParams = {
+        dirname: dirname(feature),
         files: {
           params: feature,
         },
@@ -103,7 +104,7 @@ export class DesignSystem {
         params.files.icons = find(`${iconsPath}${sep}*${this.iconExtension}`);
       }
 
-      this.setFeature(name, params);
+      await this.setFeature(name, params);
     }
   }
 
@@ -123,18 +124,24 @@ export class DesignSystem {
     }
   }
 
-  public setFeature(namespace: string, params: DesignSystemFeatureParams) {
+  public async setFeature(namespace: string, config: DesignSystemFeatureParams): Promise<void> {
 
     if(typeof this.features[namespace] !== 'undefined') {
-      const newParams = params.params;
-      params = lodashMerge(this.features[namespace].getConfig(), params);
 
-      // Override params key only and keep merge for others features
-      params.params = newParams;
+      // Clearing feature old params and old directives
+      this.features[namespace].clearParams();
+      this.features[namespace].clearDirectives();
+
+      // Merging all other params
+      const mergedConfig = lodashMerge(this.features[namespace].getConfig(), config);
+
+      await this.features[namespace].setConfig(mergedConfig);
 
       console.log(`Feature "${namespace}" overrides default ${namespace}`);
     }
-    this.features[namespace] = new DesignSystemFeature(namespace, params, this.output);
+    else {
+      this.features[namespace] = new DesignSystemFeature(namespace, config, this.output);
+    }
   }
 
   public deleteFeature(namespace: string) {
@@ -150,38 +157,42 @@ export class DesignSystem {
 
   public getFonts(): string {
 
+    let output = '';
     for(const [namespace, feature] of Object.entries(this.features)) {
-      this.fonts += feature.exportFonts();
+      output += feature.exportFonts();
     }
 
-    return this.fonts;
+    return output;
   };
 
   public getCssVars(): string {
 
+    let output = '';
     for(const [namespace, feature] of Object.entries(this.features)) {
-      this.cssVars += feature.exportCssVars();
+      output += feature.exportCssVars();
     }
 
-    return this.cssVars;
+    return output;
   };
 
   public getSassMaps(): string {
 
+    let output = '';
     for(const [namespace, feature] of Object.entries(this.features)) {
-      this.sassMaps += feature.exportSassMap();
+      output += feature.exportSassMap();
     }
 
-    return this.sassMaps;
+    return output;
   };
 
   public getSassPlaceholders(): string {
 
+    let output = '';
     for(const [namespace, feature] of Object.entries(this.features)) {
-      this.sassPlaceholders += feature.exportSassPlaceholders();
+      output += feature.exportSassPlaceholders();
     }
 
-    return this.sassPlaceholders;
+    return output;
   };
 
   public writeFiles() {
