@@ -1,8 +1,7 @@
-exports.default = (prefix, params, output) => {
+exports.default = (prefix, params, output, dirname) => {
 
   // Placeholders
   const designSystemDirectives = {
-    fonts: {},
     cssVars: {},
     sassPlaceholders: {},
   };

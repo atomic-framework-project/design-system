@@ -348,7 +348,7 @@ export class DesignSystemFeature {
     };
   }
 
-  public setConfig(params: DesignSystemFeatureParams) {
+  public async setConfig(params: DesignSystemFeatureParams): Promise<void> {
 
     this.dirname = params.dirname;
     this.files = params.files;
@@ -358,7 +358,7 @@ export class DesignSystemFeature {
     if(typeof params.process === 'function') {this.process = params.process}
     typeof params.template === 'string' ? this.template = params.template : this.template = undefined;
 
-    this.setup();
+    await this.setup();
   }
 
   public clearParams(): void {
