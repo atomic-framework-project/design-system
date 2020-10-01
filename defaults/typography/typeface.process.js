@@ -14,8 +14,13 @@ exports.default = (prefix, params, output, dirname) => {
     sassPlaceholders: {},
   };
 
+  let index = 1;
   for (const [fontname, font] of Object.entries(params)) {
     for (const [variantName, variant] of Object.entries(font.fonts)) {
+
+      designSystemDirectives.cssVars[`${prefix}-${index}-font-family`] = font['_font-family'];
+      designSystemDirectives.cssVars[`${prefix}-${index}-font-weight`] = variant['font-weight'];
+      designSystemDirectives.cssVars[`${prefix}-${index}-font-style`] = variant['font-style'];
 
       const namespaceVariantSuffix = `${fontname}-${variantName}`;
       const namespaceVariant = `${prefix}-${namespaceVariantSuffix}`;
@@ -126,6 +131,8 @@ exports.default = (prefix, params, output, dirname) => {
           };
         }
       }
+
+      index++;
     }
   }
 
