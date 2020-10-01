@@ -12,7 +12,8 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "./lib",
     "sourceMap": true,
-    "allowJs": true
+    "allowJs": true,
+    "declaration": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]
