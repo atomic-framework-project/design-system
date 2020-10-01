@@ -1,8 +1,11 @@
 export type OutputFormat = 'css' | 'scss';
 export type TemplateFormat = '.twig' | '.vue';
 
+export type DesignSystemFilterFunction = (type: 'css'|'scss', code: string) => string;
 export type DesignSystemPreprocessFunction = (self: object) => any;
-export type DesignSystemProcessFunction = (prefix: string, params: any, output?: string, dirname?: string) => DesignSystemDirectives;
+export type DesignSystemProcessFunction = (prefix: string, params: any, output?: string, dirname?: string, self?: object) => DesignSystemDirectives;
+
+export type DesignSystemAlias  = [string, string] | undefined
 
 export interface DesignSystemFeatureParams {
   dirname: string;
@@ -36,6 +39,7 @@ export interface DesignSystemDirectives {
 export interface DesignSystemDirectivesFont {
   '@import'?: string
   file?: string;
+  path?: string;
   css?: {[key: string]: any};
 }
 

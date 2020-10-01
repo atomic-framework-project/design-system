@@ -13,6 +13,7 @@ exports.default = (prefix, params, output) => {
   const namespaceFont = `webfont-icons`;
   designSystemDirectives.fonts[namespaceFont] = {
     file: `./${namespaceFont}.woff2`,
+    path: output,
     css: {
       'font-family': `"${namespaceFont}"`,
       'font-display': 'swap',

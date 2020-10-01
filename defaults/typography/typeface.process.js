@@ -44,6 +44,7 @@ exports.default = (prefix, params, output, dirname) => {
         // @font-face case
         designSystemDirectives.fonts[namespaceVariantSuffix] = {
           file: path.relative(output, fontPath),
+          path: path.dirname(fontPath),
           css: {
             'font-family': `"${font['font-face-family']}"`,
             'font-display': font['font-display'],

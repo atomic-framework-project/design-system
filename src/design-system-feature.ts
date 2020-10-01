@@ -4,14 +4,18 @@ import {
   DesignSystemProcessFunction,
   DesignSystemDirectives,
   DesignSystemFeatureParamsFiles,
-  DesignSystemDirectivesPlaceholders, DesignSystemDirectivesFont
+  DesignSystemDirectivesPlaceholders,
+  DesignSystemDirectivesFont,
+  DesignSystemAlias,
 } from './interface';
+import {basename, sep} from 'path';
 import SVGO from 'svgo';
 
 export class DesignSystemFeature {
 
   public readonly _prefix = 'DS-';
   public readonly _sassDocGroupName = 'Design System';
+  public readonly aliasFormat?: string;
 
   private readonly output: string;
   private namespace: string;
@@ -24,12 +28,14 @@ export class DesignSystemFeature {
 
   private params: any = {};
   private directives: DesignSystemDirectives = {};
+  private alias?: DesignSystemAlias;
 
-  constructor(namespace:string, params: DesignSystemFeatureParams, output: string) {
+  constructor(namespace:string, params: DesignSystemFeatureParams, output: string, alias?: string) {
 
     this.output = output;
     this.namespace = `${this._prefix}${namespace}`;
     this.files = params.files;
+    this.aliasFormat = alias;
 
     this.setConfig(params);
   }
@@ -44,7 +50,7 @@ export class DesignSystemFeature {
     }
 
     if(typeof this.process === 'function'){
-      this.directives = this.process(this.namespace, this.params, this.output, this.dirname);
+      this.directives = this.process(this.namespace, this.params, this.output, this.dirname, this);
     }
   }
 
@@ -63,7 +69,7 @@ export class DesignSystemFeature {
     return this.directives?.fonts;
   }
 
-  public exportFonts(): string {
+  public exportFonts(alias?: string): string {
 
     let output = '';
 
@@ -75,7 +81,7 @@ export class DesignSystemFeature {
           output += `
             @import url(${fontDirectives['@import']});`;
         }
-        else {
+        else if(typeof fontDirectives.file === 'string') {
           output += `
           
             @font-face {
@@ -89,8 +95,14 @@ export class DesignSystemFeature {
             }
           }
 
+          let url = fontDirectives.file;
+          if(typeof this.aliasFormat === 'string' && typeof fontDirectives.path === 'string') {
+            const aliasName = this.getAliasNamespace();
+            this.setAlias(aliasName as string, fontDirectives.path);
+            url = `${aliasName}${sep}${basename(fontDirectives.file)}`;
+          }
           output += `
-              src: url(${fontDirectives.file}) format("woff2");
+              src: url(${url}) format("woff2");
             }
           `;
         }
@@ -98,6 +110,26 @@ export class DesignSystemFeature {
     }
 
     return output;
+  }
+
+  public getAliasNamespace(): string|undefined {
+
+    if(typeof this.aliasFormat === 'string') {
+      return this.aliasFormat.replace('{{namespace}}', this.namespace);
+    }
+    else {
+      return undefined;
+    }
+  }
+
+  public setAlias(name: string, path: string): void {
+
+    this.alias = [name, path];
+  }
+
+  public getAlias(): DesignSystemAlias {
+
+    return this.alias;
   }
 
   public exportCssVars(): string {

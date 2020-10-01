@@ -1,4 +1,4 @@
-import {TemplateFormat, DesignSystemFeatureParams, DesignSystemPreprocessFunction, DesignSystemProcessFunction} from './interface';
+import {TemplateFormat, DesignSystemFeatureParams, DesignSystemPreprocessFunction, DesignSystemProcessFunction, DesignSystemFilterFunction} from './interface';
 import {DesignSystemFeature} from './design-system-feature';
 import {format as prettierFormat} from 'prettier';
 import {writeFileSync, readFileSync, existsSync, ensureDirSync} from 'fs-extra';
@@ -11,6 +11,7 @@ export class DesignSystem {
   private readonly defaults: string = resolve(process.cwd(), resolve(__dirname, './../defaults'));
   private readonly iconExtension = '.svg';
   private readonly templateExtension: TemplateFormat;
+  private readonly aliasFormat: string|undefined;
 
   private features: {[key:string]: DesignSystemFeature} = {};
 
@@ -29,11 +30,14 @@ export class DesignSystem {
   public static preprocessExtension = '.preprocess.js';
   public static processExtension = '.process.js';
 
-  constructor(entry: string, output: string, templateType: TemplateFormat) {
+  constructor(entry: string, output: string, templateType: TemplateFormat, aliases?: string) {
 
     this.entry = resolve(process.cwd(), entry);
     this.output = resolve(process.cwd(), output);
     this.templateExtension = templateType;
+    if(typeof aliases === 'string'){
+      this.aliasFormat = aliases;
+    }
 
     if(!existsSync(this.entry)) {
       console.log(`Entry Design System folder doesn't exists`);
@@ -46,6 +50,7 @@ export class DesignSystem {
     if(this.entry !== this.defaults) {
       await this.exploreFolder(this.entry);
     }
+
     this.fonts = this.getFonts();
     this.cssVars = this.getCssVars();
     this.sassMaps = this.getSassMaps();
@@ -140,7 +145,7 @@ export class DesignSystem {
       console.log(`Feature "${namespace}" overrides default ${namespace}`);
     }
     else {
-      this.features[namespace] = new DesignSystemFeature(namespace, config, this.output);
+      this.features[namespace] = new DesignSystemFeature(namespace, config, this.output, this.aliasFormat);
     }
   }
 
@@ -159,7 +164,7 @@ export class DesignSystem {
 
     let output = '';
     for(const [namespace, feature] of Object.entries(this.features)) {
-      output += feature.exportFonts();
+      output += feature.exportFonts(this.aliasFormat);
     }
 
     return output;
@@ -195,14 +200,14 @@ export class DesignSystem {
     return output;
   };
 
-  public writeFiles() {
-    this.writeCssFile();
-    this.writeSassFile();
+  public writeFiles(filter?: DesignSystemFilterFunction): void {
+    this.writeCssFile(this.output, filter);
+    this.writeSassFile(this.output, filter);
   }
 
-  public writeCssFile(output: string = this.output) {
+  public writeCssFile(output: string = this.output, filter?: DesignSystemFilterFunction): void {
 
-    const source = `
+    let source = `
       /* ${DesignSystem.outputMsg} */
     
       :root {
@@ -210,13 +215,17 @@ export class DesignSystem {
       }
     `;
 
+    if(typeof filter === 'function') {
+      source = filter('css', source);
+    }
+
     ensureDirSync(this.output);
     writeFileSync(`${output}${sep}design-system.css`, prettierFormat(source, {parser: 'css'}), {encoding: 'utf-8'});
   }
 
-  public writeSassFile(output: string = this.output) {
+  public writeSassFile(output: string = this.output, filter?: DesignSystemFilterFunction): void {
 
-    const source = `
+    let source = `
       // ${DesignSystem.outputMsg}
       
       :root {
@@ -285,6 +294,10 @@ export class DesignSystem {
       
       ${this.sassPlaceholders}
     `;
+
+    if(typeof filter === 'function') {
+      source = filter('scss', source);
+    }
 
     ensureDirSync(this.output);
     writeFileSync(`${output}${sep}design-system.scss`, prettierFormat(source, {parser: 'scss'}), {encoding: 'utf-8'});
