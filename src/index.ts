@@ -1,5 +1,5 @@
 import {TemplateFormat} from './interface';
-import {DesignSystem} from "./design-system";
+import {DesignSystem} from './design-system';
 
 export default async function proceed() {
 
@@ -17,9 +17,9 @@ export default async function proceed() {
     && typeof process.argv[7] === 'string'
   ) {
 
-    const DesignSystemObj = new DesignSystem(process.argv[3], process.argv[5], process.argv[7] as TemplateFormat);
-    await DesignSystemObj.setup();
-    DesignSystemObj.writeFiles();
+    const ds = new DesignSystem(process.argv[3], process.argv[5], process.argv[7] as TemplateFormat);
+    await ds.setup();
+    ds.writeFiles();
   }
   else {
 
