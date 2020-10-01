@@ -31,7 +31,7 @@
     "test": "jest --passWithNoTests --config jestconfig.json",
     "dev": "npx tsc -w",
     "build": "npx tsc",
-    "format": "npx prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "npx prettier --write \"src/**/*.ts\"",
     "lint": "npx tslint -p tsconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
