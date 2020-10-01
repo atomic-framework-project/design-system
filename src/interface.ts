@@ -1,11 +1,17 @@
 export type OutputFormat = 'css' | 'scss';
 export type TemplateFormat = '.twig' | '.vue';
 
-export type DesignSystemFilterFunction = (type: 'css'|'scss', code: string) => string;
+export type DesignSystemFilterFunction = (type: 'css' | 'scss', code: string) => string;
 export type DesignSystemPreprocessFunction = (self: object) => any;
-export type DesignSystemProcessFunction = (prefix: string, params: any, output?: string, dirname?: string, self?: object) => DesignSystemDirectives;
+export type DesignSystemProcessFunction = (
+  prefix: string,
+  params: any,
+  output?: string,
+  dirname?: string,
+  self?: object,
+) => DesignSystemDirectives;
 
-export type DesignSystemAlias  = [string, string] | undefined
+export type DesignSystemAlias = [string, string] | undefined;
 
 export interface DesignSystemFeatureParams {
   dirname: string;
@@ -30,17 +36,17 @@ export interface DesignSystemFeatureParamsFiles {
  * Object returned by any conversion process function
  */
 export interface DesignSystemDirectives {
-  bypassMap?: boolean,
-  fonts?: {[key: string]: DesignSystemDirectivesFont};
-  cssVars?: {[key: string]: string};
-  sassPlaceholders?: {[key: string]: DesignSystemDirectivesPlaceholders};
+  bypassMap?: boolean;
+  fonts?: { [key: string]: DesignSystemDirectivesFont };
+  cssVars?: { [key: string]: string };
+  sassPlaceholders?: { [key: string]: DesignSystemDirectivesPlaceholders };
 }
 
 export interface DesignSystemDirectivesFont {
-  '@import'?: string
+  '@import'?: string;
   file?: string;
   path?: string;
-  css?: {[key: string]: any};
+  css?: { [key: string]: any };
 }
 
 export interface DesignSystemDirectivesPlaceholders {
@@ -75,6 +81,6 @@ export interface DesignSystemDirectivesPlaceholders {
        * CSS property: value
        */
       [key: string]: any;
-    }
+    };
   };
 }
