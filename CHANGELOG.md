@@ -12,8 +12,11 @@
 ## v1.3.1 (2020-10-01)
 
 #### :memo: Add changelog.md file
-
 - [See file](https://github.com/atomic-framework-project/design-system/blob/master/CHANGELOG.md) documentation: Add changelog.md file ([@shepaop](https://github.com/shepaop))
+
+#### :memo: Update readme.md file
+- [See file](https://github.com/atomic-framework-project/design-system/blob/master/README.md) documentation: Add more examples ([@shepaop](https://github.com/shepaop))
+
 ## v1.3.0 (2020-10-01)
 
 #### :rocket: New Feature
