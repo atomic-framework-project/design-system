@@ -15,7 +15,7 @@ export default async function proceed() {
     process.argv[6] === '-format' &&
     typeof process.argv[7] === 'string'
   ) {
-    const ds = new DesignSystem(process.argv[3], process.argv[5], process.argv[7] as TemplateFormat,'~@{{namespace}}');
+    const ds = new DesignSystem(process.argv[3], process.argv[5], process.argv[7] as TemplateFormat);
     await ds.setup();
     ds.writeFiles();
   } else {
