@@ -194,6 +194,7 @@ export class DesignSystem {
   public writeFiles(filter?: DesignSystemFilterFunction): void {
     this.writeCssFile(this.output, filter);
     this.writeSassFile(this.output, filter);
+    this.writeAliasFile(this.output);
   }
 
   public writeCssFile(output: string = this.output, filter?: DesignSystemFilterFunction): void {
@@ -292,5 +293,30 @@ export class DesignSystem {
     writeFileSync(`${output}${sep}design-system.scss`, prettierFormat(source, { parser: 'scss' }), {
       encoding: 'utf-8',
     });
+  }
+
+  public writeAliasFile(output: string = this.output): void {
+    let source = `{
+    `;
+
+    let trigger = false;
+    const features = Object.values(this.getFeatures());
+    features.map((el) => {
+      const alias = el.getAlias();
+      if(typeof alias !== 'undefined'){
+        if(!trigger){
+          trigger = true;
+        }
+        else {
+          source += `, `;
+        }
+        source += `"${alias[0]}": "${alias[1]}"`;
+      }
+    });
+
+    source += `}`;
+
+    ensureDirSync(this.output);
+    writeFileSync(`${output}${sep}design-system.json`, prettierFormat(source, { parser: 'json' }), { encoding: 'utf-8' });
   }
 }

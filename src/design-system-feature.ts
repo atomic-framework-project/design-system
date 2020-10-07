@@ -8,7 +8,7 @@ import {
   DesignSystemDirectivesFont,
   DesignSystemAlias,
 } from './interface';
-import { basename, sep } from 'path';
+import { basename, sep, relative } from 'path';
 import SVGO from 'svgo';
 
 export class DesignSystemFeature {
@@ -89,7 +89,7 @@ export class DesignSystemFeature {
           let url = fontDirectives.file;
           if (typeof this.aliasFormat === 'string' && typeof fontDirectives.path === 'string') {
             const aliasName = this.getAliasNamespace();
-            this.setAlias(aliasName as string, fontDirectives.path);
+            this.setAlias(aliasName as string, relative(this.output, fontDirectives.path));
             url = `${aliasName}${sep}${basename(fontDirectives.file)}`;
           }
           output += `

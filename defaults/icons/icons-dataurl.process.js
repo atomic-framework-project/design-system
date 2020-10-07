@@ -12,7 +12,7 @@ exports.default = (prefix, params, output, dirname, DesignSystemFeatureObj) => {
   if(typeof aliasName === 'string' && Object.keys(params).length) {
     let dirname = path.dirname(Object.values(params)[0].file);
     dirname = dirname.replace('"', '');
-    DesignSystemFeatureObj.setAlias(aliasName, dirname)
+    DesignSystemFeatureObj.setAlias(aliasName, path.relative(output, dirname))
   }
 
   for(const [iconNamespace, icon] of Object.entries(params)) {
