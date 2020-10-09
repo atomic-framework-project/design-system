@@ -296,27 +296,20 @@ export class DesignSystem {
   }
 
   public writeAliasFile(output: string = this.output): void {
-    let source = `{
-    `;
-
-    let trigger = false;
-    const features = Object.values(this.getFeatures());
-    features.map((el) => {
+    const features = this.getFeatures();
+    const out = {
+      aliases: {}
+    };
+    for (const key of  Object.keys(features)) {
+      const el = features[key];
+      out[key] = el.getConfig().params;
       const alias = el.getAlias();
       if(typeof alias !== 'undefined'){
-        if(!trigger){
-          trigger = true;
-        }
-        else {
-          source += `, `;
-        }
-        source += `"${alias[0]}": "${alias[1]}"`;
+        out.aliases[alias[0]] = alias[1];
       }
-    });
-
-    source += `}`;
+    }
 
     ensureDirSync(this.output);
-    writeFileSync(`${output}${sep}design-system.json`, prettierFormat(source, { parser: 'json' }), { encoding: 'utf-8' });
+    writeFileSync(`${output}${sep}design-system.json`, prettierFormat(JSON.stringify(out), { parser: 'json' }), { encoding: 'utf-8' });
   }
 }
