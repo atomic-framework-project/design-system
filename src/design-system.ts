@@ -194,7 +194,7 @@ export class DesignSystem {
   public writeFiles(filter?: DesignSystemFilterFunction): void {
     this.writeCssFile(this.output, filter);
     this.writeSassFile(this.output, filter);
-    this.writeAliasFile(this.output);
+    this.writeJsonFile(this.output);
   }
 
   public writeCssFile(output: string = this.output, filter?: DesignSystemFilterFunction): void {
@@ -215,14 +215,33 @@ export class DesignSystem {
   }
 
   public writeSassFile(output: string = this.output, filter?: DesignSystemFilterFunction): void {
+
+    this.writeSassMainFile(output, filter);
+    this.writeSassIncludeFile(output, filter);
+    
     let source = `
       // ${DesignSystem.outputMsg}
       
-      :root {
-        ${this.cssVars}
-      }
+      @import "./main";
+      @import "./include";
       
-      ${this.fonts}
+    `;
+
+    if (typeof filter === 'function') {
+      source = filter('scss', source);
+    }
+
+    ensureDirSync(this.output);
+    writeFileSync(`${output}${sep}design-system.scss`, prettierFormat(source, { parser: 'scss' }), {
+      encoding: 'utf-8',
+    });
+  }
+
+  public writeSassMainFile(output: string = this.output, filter?: DesignSystemFilterFunction) {
+
+    let source = `
+      // ${DesignSystem.outputMsg}
+      
       
       /// Define @content from a specific semantic breakpoint
       /// @name breakpoint
@@ -285,31 +304,45 @@ export class DesignSystem {
       ${this.sassPlaceholders}
     `;
 
-    if (typeof filter === 'function') {
-      source = filter('scss', source);
-    }
-
     ensureDirSync(this.output);
-    writeFileSync(`${output}${sep}design-system.scss`, prettierFormat(source, { parser: 'scss' }), {
+    writeFileSync(`${output}${sep}_include.scss`, prettierFormat(source, { parser: 'scss' }), {
       encoding: 'utf-8',
     });
   }
 
-  public writeAliasFile(output: string = this.output): void {
+  public writeSassIncludeFile(output: string = this.output, filter?: DesignSystemFilterFunction) {
+
+    let source = `
+      // ${DesignSystem.outputMsg}
+      
+      :root {
+        ${this.cssVars}
+      }
+    `;
+
+    ensureDirSync(this.output);
+    writeFileSync(`${output}${sep}_main.scss`, prettierFormat(source, { parser: 'scss' }), {
+      encoding: 'utf-8',
+    });
+  }
+
+  public writeJsonFile(output: string = this.output): void {
     const features = this.getFeatures();
-    const out = {
-      aliases: {}
-    };
+    const aliases: any = {};
+
+    ensureDirSync(this.output);
+    ensureDirSync(`${output}${sep}json`);
+    
     for (const key of  Object.keys(features)) {
       const el = features[key];
-      out[key] = el.getConfig().params;
+      writeFileSync(`${output}${sep}json${sep}${key}.json`, prettierFormat(JSON.stringify(el.getConfig().params), { parser: 'json' }), { encoding: 'utf-8' });
+      
       const alias = el.getAlias();
       if(typeof alias !== 'undefined'){
-        out.aliases[alias[0]] = alias[1];
+        aliases[alias[0]] = alias[1];
       }
     }
 
-    ensureDirSync(this.output);
-    writeFileSync(`${output}${sep}design-system.json`, prettierFormat(JSON.stringify(out), { parser: 'json' }), { encoding: 'utf-8' });
+    writeFileSync(`${output}${sep}json${sep}aliases.json`, prettierFormat(JSON.stringify(aliases), { parser: 'json' }), { encoding: 'utf-8' });
   }
 }
