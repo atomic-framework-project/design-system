@@ -318,6 +318,9 @@ export class DesignSystem {
       :root {
         ${this.cssVars}
       }
+      
+      ${this.fonts}
+      
     `;
 
     ensureDirSync(this.output);
