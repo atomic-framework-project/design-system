@@ -242,6 +242,25 @@ export class DesignSystem {
     let source = `
       // ${DesignSystem.outputMsg}
       
+      :root {
+        ${this.cssVars}
+      }
+      
+      ${this.fonts}
+      
+    `;
+
+    ensureDirSync(this.output);
+    writeFileSync(`${output}${sep}_main.scss`, prettierFormat(source, { parser: 'scss' }), {
+      encoding: 'utf-8',
+    });
+  }
+
+  public writeSassIncludeFile(output: string = this.output, filter?: DesignSystemFilterFunction) {
+
+    let source = `
+      // ${DesignSystem.outputMsg}
+      
       
       /// Define @content from a specific semantic breakpoint
       /// @name breakpoint
@@ -306,25 +325,6 @@ export class DesignSystem {
 
     ensureDirSync(this.output);
     writeFileSync(`${output}${sep}_include.scss`, prettierFormat(source, { parser: 'scss' }), {
-      encoding: 'utf-8',
-    });
-  }
-
-  public writeSassIncludeFile(output: string = this.output, filter?: DesignSystemFilterFunction) {
-
-    let source = `
-      // ${DesignSystem.outputMsg}
-      
-      :root {
-        ${this.cssVars}
-      }
-      
-      ${this.fonts}
-      
-    `;
-
-    ensureDirSync(this.output);
-    writeFileSync(`${output}${sep}_main.scss`, prettierFormat(source, { parser: 'scss' }), {
       encoding: 'utf-8',
     });
   }
