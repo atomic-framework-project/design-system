@@ -195,6 +195,7 @@ export class DesignSystem {
     this.writeCssFile(this.output, filter);
     this.writeSassFile(this.output, filter);
     this.writeAliasFile(this.output);
+    this.writeJsonFile(this.output);
   }
 
   public writeCssFile(output: string = this.output, filter?: DesignSystemFilterFunction): void {
@@ -296,27 +297,31 @@ export class DesignSystem {
   }
 
   public writeAliasFile(output: string = this.output): void {
-    let source = `{
-    `;
+    const features = this.getFeatures();
+    const aliases: any = {};
 
-    let trigger = false;
-    const features = Object.values(this.getFeatures());
-    features.map((el) => {
+    for (const key of  Object.keys(features)) {
+      const el = features[key];
       const alias = el.getAlias();
       if(typeof alias !== 'undefined'){
-        if(!trigger){
-          trigger = true;
-        }
-        else {
-          source += `, `;
-        }
-        source += `"${alias[0]}": "${alias[1]}"`;
+        aliases[alias[0]] = alias[1];
       }
-    });
-
-    source += `}`;
+    }
 
     ensureDirSync(this.output);
-    writeFileSync(`${output}${sep}design-system.json`, prettierFormat(source, { parser: 'json' }), { encoding: 'utf-8' });
+    writeFileSync(`${output}${sep}design-system.json`, prettierFormat(JSON.stringify(aliases), { parser: 'json' }), { encoding: 'utf-8' });
+    
+  }
+  
+  public writeJsonFile(output: string = this.output): void {
+    const features = this.getFeatures();
+
+    ensureDirSync(this.output);
+    ensureDirSync(`${output}${sep}json`);
+    
+    for (const key of  Object.keys(features)) {
+      const el = features[key];
+      writeFileSync(`${output}${sep}json${sep}${key}.json`, prettierFormat(JSON.stringify(el.getConfig().params), { parser: 'json' }), { encoding: 'utf-8' });
+    }
   }
 }
