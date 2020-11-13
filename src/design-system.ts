@@ -310,18 +310,19 @@ export class DesignSystem {
 
     ensureDirSync(this.output);
     writeFileSync(`${output}${sep}design-system.json`, prettierFormat(JSON.stringify(aliases), { parser: 'json' }), { encoding: 'utf-8' });
-    
+
   }
-  
+
   public writeJsonFile(output: string = this.output): void {
     const features = this.getFeatures();
 
+    const folderName = 'features';
     ensureDirSync(this.output);
-    ensureDirSync(`${output}${sep}json`);
-    
+    ensureDirSync(`${output}${sep}${folderName}`);
+
     for (const key of  Object.keys(features)) {
       const el = features[key];
-      writeFileSync(`${output}${sep}json${sep}${key}.json`, prettierFormat(JSON.stringify(el.getConfig().params), { parser: 'json' }), { encoding: 'utf-8' });
+      writeFileSync(`${output}${sep}${folderName}${sep}${key}.json`, prettierFormat(JSON.stringify(el.getConfig().params), { parser: 'json' }), { encoding: 'utf-8' });
     }
   }
 }
