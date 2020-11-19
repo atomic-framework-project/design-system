@@ -2,13 +2,16 @@
   <div class="sg-MainContent-container">
     <h2 class="sg-MainContent-title">Gradients</h2>
     <div class="sg-DesignSystemItem">
-      <template v-for="(colors, family) in datas">
+      <template v-for="(types, family) in datas">
+        <h3>{{ family }}</h3>
         <div class="sg-MainContent-list--column">
-          <div class="sg-Card" v-bind:style="{height: '50px', 'background-image': 'linear-gradient(to right, ' + (colors.join(',')) + ')', 'background-size': '25% 100%'}">
-            <div>
-              <span>{{ family }}</span>
+          <template v-for="(colors, name) in types">
+            <div class="sg-Card" v-bind:style="{height: '50px', 'background-image': 'linear-gradient(to right, '+ colors.join(',') +')', 'background-size': '25% 100%'}">
+              <div>
+                <span>{{ name }}</span>
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </template>
     </div>
