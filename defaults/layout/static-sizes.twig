@@ -1,0 +1,26 @@
+{% for componentName, data in datas %}
+  <div>
+    <h3>{{ componentName }}</h3>
+    {% if data._desc is defined %}
+      <p>{{ data._desc }}</p>
+    {% endif %}
+    <div class="sg-DesignSystemItem">
+      <div>
+        <div class="sg-MainContent-list--xSmall">
+          {% for cssProperty, responsive in data %}
+            {% if cssProperty != '_desc' %}
+              <div class="sg-LayoutCard">
+                <div class="sg-LayoutCard--label">
+                  {{ cssProperty }}
+                  {% for breakpoint, value in responsive %}
+                    <span class="sg-LayoutCard--value">{{ breakpoint }} - {{ value }}px</span>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}

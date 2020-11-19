@@ -1,0 +1,23 @@
+<div class="sg-DesignSystemItem">
+  {% for group, colors  in datas %}
+    <h3>{{ group }}</h3>
+    <div class="sg-MainContent-list--column">
+      {% for keyCol, valCol in colors %}
+        <div class="sg-Card" style="background-color: {{ valCol.value }}">
+          <div>
+            <span>{{ keyCol }}</span><span>{{ valCol.value }}</span>
+          </div>
+        </div>
+        {% if valCol.declinaisons is defined %}
+          {% for keyDecli, valDecli in valCol.declinaisons %}
+            <div class="sg-Card" style="background-color: {{ valDecli }}">
+              <div>
+                <span>{{ keyCol }}-{{ keyDecli }}</span><span>{{ valDecli }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>

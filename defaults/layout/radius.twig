@@ -1,0 +1,23 @@
+<div class="sg-DesignSystemItem">
+  <div class="sg-MainContent-list--xSmall">
+    {% for name, value in datas|reverse %}
+
+      {% if value.length == 1 %}
+        {% set cssValue = value %}
+      {% else %}
+        {% set cssValue = value ~ 'px' %}
+      {% endif %}
+
+      <div class="sg-LayoutCard">
+        <div class="sg-LayoutCard--block {% if cssValue[0] is defined and cssValue[0] == '50%' %}display-as-square{% endif %}">
+          <div class="sg-LayoutCard--block--inner" style="border-radius:{{ cssValue }};">
+          </div>
+        </div>
+        <div class="sg-LayoutCard--label">
+          {{ name | capitalize }}
+          <span class="sg-LayoutCard--value">{{ cssValue }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

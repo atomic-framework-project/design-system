@@ -1,0 +1,14 @@
+<div class="sg-DesignSystemItem">
+  <div class="sg-MainContent-list--xSmall">
+    {% for name, shadow in datas|reverse %}
+      <div class="sg-LayoutCard">
+        <div class="sg-LayoutCard--block">
+          <div class="sg-LayoutCard--block--inner" style="box-shadow:{{ shadow|join(' ') }};background:#fff">
+          </div>
+        </div>
+        <div class="sg-LayoutCard--label">{{ name | capitalize }}</div>
+        <span class="sg-LayoutCard--value">{{ shadow|join(' ') }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</div>

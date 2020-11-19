@@ -1,0 +1,20 @@
+<div class="sg-Breakpoints-wrapper">
+  <div class="sg-Breakpoints">
+    {% for breakpoint, value in datas.steps %}
+      <div class="sg-Breakpoints-item">
+        <div class="sg-Breakpoints-item-tooltip">
+          <div class="sg-Breakpoints-item-tooltip-action">
+            <div class="sg-Tooltip-icon">
+              <img src="{{ relpath }}../assets-styleguide/img/icon-responsive-{{ breakpoint }}.svg" alt="" />
+            </div>
+            <div class="sg-Devices">{{ breakpoint }}</div>
+          </div>
+        </div>
+        <div class="sg-Breakpoints-item-size">{{ value }}px</div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="sg-Breakpoints-endsize">
+    {{ datas.max }}px
+  </div>
+</div>

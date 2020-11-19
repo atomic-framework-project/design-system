@@ -1,0 +1,64 @@
+<div class="sg-DesignSystemItem">
+  {% for key, typeface in datas %}
+    <h3>{{ typeface.name }}</h3>
+    <div class="sg-MainContent-flexbox">
+      {% for keyFont, nameFont in typeface.fonts %}
+        <div class="sg-ColorCard">
+          <p
+            style="font-size:4em;text-align:center;color:black;opacity:1;font-family:{{ typeface['font-face-family'] }};font-weight:{{ nameFont['font-weight'] }};">
+            Aa
+          </p>
+          <span>{{ nameFont.name }}</span>
+        </div>
+      {% endfor %}
+    </div>
+    <h3>{{ typeface.name }} - Configuration</h3>
+    <div class="sg-MainContent-flexbox">
+      {% for breakpoint, params in typeface.responsive %}
+        <div class="sg-Card sg-TypescaleCard">
+          <span>{{ breakpoint }}</span>
+          <p class="sg-number">{{ params.root }} <span>Points</span></p><br/>
+          <p>{{ params.typescale }} <span>Typescale</span></p><br/>
+          <p>{{ params['line-height-heading'] }} <span>Line-height Headings</span></p><br/>
+          <p>{{ params['line-height-text'] }} <span>Line-height Texts</span></p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <h3>{{ typeface.name }} - Typescale Overview</h3>
+    <div class="sg-Table-Container">
+      <table>
+        <tr>
+          <th></th>
+          {% for breakpoint, params in typeface.responsive %}
+            <th>{{ breakpoint }}</th>
+          {% endfor %}
+        </tr>
+        {% for fontSizeNamespace, fontSizeDatas in typeface.responsive.mobile['font-sizes'] %}
+          <tr class="{# { (fontSizeNamespace == 'root') ? 'root': '' } #}">
+            <th>{{ fontSizeNamespace }}</th>
+              {% for breakpoint, params in typeface.responsive %}
+              <td>
+                <span>{{ typeface.responsive[breakpoint]['font-sizes'][fontSizeNamespace] }}</span>
+              </td>
+              {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+      {% for keyFont, nameFont in typeface.fonts %}
+      <h3>{{ typeface.name }} {{ nameFont.name }} - Typescale (Mobile)</h3>
+      <div class="sg-Table-Container">
+        {% for name, size in typeface.responsive.mobile['font-sizes'] %}
+        <div class="sg-TypescaleDesktop">
+          <p style="font-size:{{ size }}px;font-family:{{ typeface['font-face-family'] }};font-weight:{{ nameFont['font-weight'] }};">
+            The quick brown fox jumps over the lazy dog
+          </p>
+          <span>{{ size }} - </span>
+          <span>{{ name }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+  {% endfor %}
+</div>

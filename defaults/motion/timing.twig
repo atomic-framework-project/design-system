@@ -1,0 +1,17 @@
+<div>
+  <div class="sg-MainContent-list--xSmall">
+    {% for name, value in datas %}
+      <div class="sg-LayoutCard">
+        <div class="sg-LayoutCard--block display-as-square hover_special_timing_{{ name }}">
+          <div class="sg-LayoutCard--block--inner" style="border-radius:50%;transform:none;transition:all {{ value}}ms;">
+          </div>
+        </div>
+        <div class="sg-LayoutCard--label">
+          {{ name | capitalize }}
+          <span class="sg-LayoutCard--value">{{ value }}ms</span>
+        </div>
+      </div>
+      <style>.hover_special_timing_{{ name }}:hover > div{transform:translateY(-20px) !important;}</style>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,24 @@
+{% for group, spacings in datas %}
+  <div>
+    <h3>{{ group|capitalize }}</h3>
+    {% if spacings._desc is defined %}
+      <p>{{ spacings._desc }}</p>
+    {% endif %}
+    <div class="sg-MainContent-list--small">
+      {% for name, value in spacings|reverse %}
+        {% if name != '_desc' %}
+          <div class="sg-LayoutCard">
+            <div class="sg-LayoutCard--block">
+              <div class="sg-LayoutCard--block--inner">
+                <div style="position:absolute;top:0;right:0;left:0;bottom:0;background-color:rgba(255, 255, 255, .75);"></div>
+                <div class="sg-LayoutCard--block--inner" style="top:{{ value }}px;right:{{ value }}px;left:{{ value }}px;bottom:{{ value }}px;border-radius:0;"></div>
+              </div>
+            </div>
+            <div class="sg-LayoutCard--label">{{ name | capitalize }}</div>
+            <span class="sg-LayoutCard--value">{{ value }}px</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}

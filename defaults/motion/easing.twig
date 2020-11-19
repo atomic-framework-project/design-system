@@ -1,0 +1,17 @@
+<div class="sg-DesignSystemItem">
+  <div class="sg-MainContent-list--xSmall">
+    {% for key, val in datas %}
+    <div class="sg-LayoutCard">
+      <div class="sg-LayoutCard--block display-as-square hover_special_easing_{{ key }}">
+        <div class="sg-LayoutCard--block--inner" style="border-radius:50%;transform:none;transition:all 500ms {{ val.css|join('') }};">
+        </div>
+      </div>
+      <div class="sg-LayoutCard--label">
+        {{ val.js }}
+        <span class="sg-LayoutCard--value">{{ val.css[0] }}</span>
+      </div>
+    </div>
+    <style>.hover_special_easing_{{ key }}:hover > div{transform:translateY(-20px) !important;}</style>
+    {% endfor %}
+  </div>
+</div>

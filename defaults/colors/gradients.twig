@@ -1,0 +1,16 @@
+<div class="sg-DesignSystemItem">
+  {% for family, colors in datas %}
+  <div class="sg-MainContent-list--column">
+    {% set colorsStops = [] %}
+    {% for color in colors %}
+      {% set colorsStops = colorsStops|merge([color]) %}
+    {% endfor %}
+    {% set colorStops = colorsStops.join(', ') %}
+    <div class="sg-Card" style="height: 50px;background-image:linear-gradient(to right, {{ colorStops }});background-size: 25% 100%;">
+      <div>
+        <span>{{ family }}</span>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>

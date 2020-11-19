@@ -1,0 +1,18 @@
+{% for breakpoint, config in datas %}
+  <div class="sg-DesignSystemItem" style="margin-bottom: 45px">
+    <h3>Grid {{ breakpoint }}</h3>
+    <p>
+      {{ config.size }} columns - {{ config.gutter }}px gutter
+    </p>
+    <div class="sg-Grid sg-GridLargeGutter">
+      {% for combinaison in config.prefferedCombinaisons %}
+        <div style="width:100%;display:grid;{% if config.gutter is defined %}grid-column-gap:{{ config.gutter }}px;{% endif %}grid-template-columns:repeat({{ config.size }}, calc({{ config.relativeSize }}%{% if config.gutter is defined %} - {{ config.gutter }}px{% endif %}));align-content:space-around;justify-content:space-between;">
+          {% set combinaisonLoop = config.size / combinaison %}
+          {% for index in 1..combinaisonLoop %}
+            <div class="sg-GridItem" style="grid-column:{{ ((index - 1) * combinaison) + 1 }} / {{ index * combinaison + 1 }};"></div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}

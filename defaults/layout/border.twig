@@ -1,0 +1,14 @@
+<div class="sg-DesignSystemItem">
+  <div class="sg-MainContent-list--xSmall">
+    {% for key, value in datas %}
+    <div class="sg-LayoutCard">
+      <div class="sg-LayoutCard--block">
+        <div class="sg-LayoutCard--block--inner sg-LayoutCard--reversed" style="border-style: solid; border-radius: 0; border-width: {{ value }}px;">
+        </div>
+      </div>
+      <div class="sg-LayoutCard--label">{{ key }}</div>
+      <span class="sg-LayoutCard--value">{{ value }}px</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="sg-DesignSystemItem">
+  <div class="sg-MainContent-list--small">
+    {% for name, icon in datas %}
+    <div class="sg-Card sg-IconCard">
+      <div>
+        <img src="{{ icon._path }}" alt="{{ icon.filename }}" width="{{ icon.width }}" height="{{ icon.height }}" />
+      </div>
+      <span>{{ name }}</span>
+      <span class="sg-LayoutCard--value">{{ icon.width }}px-{{ icon.height }}px</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
