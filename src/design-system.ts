@@ -326,7 +326,13 @@ export class DesignSystem {
         encoding: 'utf-8',
       });
       // Placeholder file
-      writeFileSync(`${output}${sep}design-system_placeholders.scss`, prettierFormat(this.sassPlaceholders, {parser: 'scss'}), {
+      const placeholders = `
+        @use './design-system_vars' as *;
+        @use './design-system_helpers' as *;
+        
+        ${this.sassPlaceholders}
+      `;
+      writeFileSync(`${output}${sep}design-system_placeholders.scss`, prettierFormat(placeholders, {parser: 'scss'}), {
         encoding: 'utf-8',
       });
     }
