@@ -43,6 +43,7 @@ exports.default = (prefix, params, output) => {
     dest: output,
     fontName: namespaceFont,
     types: ['woff2'],
+    fontHeight: 1000,
   }, function(error) {
     if (error) {
       console.log('Error creating icons font', error);
