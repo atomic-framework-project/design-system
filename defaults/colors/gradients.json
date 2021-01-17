@@ -1,5 +1,27 @@
 {
+  "primary": {
+    "linear": {
+      "type": "linear",
+      "steps": ["#545afb", "#ffff99"],
+      "variants": ["to bottom", "to left", "to right", "to top", "to top left", "to top right", "to bottom left", "to bottom right"]
+    },
+    "accelerate": {
+      "type": "linear",
+      "steps": ["#545afb 0%", "#545afb 75%", "#ffff99 100%"],
+      "variants": ["to bottom", "to left", "to right", "to top"]
+    }
+  },
   "shadow": {
-    "linear": ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"]
+    "linear": {
+      "type": "linear",
+      "steps": ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"],
+      "variants": ["to bottom", "to left", "to right", "to top"]
+    },
+    "radial": {
+      "type": "radial",
+      "steps": ["rgba(0, 0, 0, .64) 20%", "rgba(0, 0, 0, 0) 100%"],
+      "variants": ["circle"]
+    }
   }
 }
+
