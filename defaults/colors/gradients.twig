@@ -1,15 +1,16 @@
 <div class="sg-DesignSystemItem">
-  {% for family, types in datas %}
-    <h3>{{ family }}</h3>
-    <div class="sg-MainContent-list--column">
-      {% for name, colors in types %}
-        <div class="sg-Card"
-             style="height: 50px;background-image:linear-gradient(to right, {{ colors|join(',') }});background-size: 25% 100%;">
-          <div>
-            <span>{{ name }}</span>
-          </div>
+    {% for family, types in datas %}
+        <h3>{{ family }}</h3>
+        <div class="sg-MainContent-list--column">
+            {% for name, properties in types %}
+                <div class="sg-Card"
+                     style="min-height: 50px;height: auto;background-image:{{ properties.type }}-gradient({{ properties.type == 'radial' ? 'circle' : 'to right' }}, {{ properties.steps|join(', ') }});background-size: 25% 100%; background-repeat: no-repeat;">
+                    <div>
+                        <span style="flex: 0 0 25%;">{{ name }}</span>
+                        <span style="flex: 1; width: auto;">{{ properties.variants|join(', ') }}<br>{{ properties.steps|join(', ') }}</span>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-  {% endfor %}
+    {% endfor %}
 </div>

@@ -5,10 +5,19 @@
       <template v-for="(types, family) in datas">
         <h3>{{ family }}</h3>
         <div class="sg-MainContent-list--column">
-          <template v-for="(colors, name) in types">
-            <div class="sg-Card" v-bind:style="{height: '50px', 'background-image': 'linear-gradient(to right, '+ colors.join(',') +')', 'background-size': '25% 100%'}">
+          <template v-for="(properties, name) in types">
+            <div
+              class="sg-Card"
+              v-bind:style="{
+                minHeight: '50px',
+                height: 'auto',
+                backgroundImage: properties.type + '-gradient(' + (properties.type == 'radial' ? 'circle' : 'to right' ) + ', ' + properties.steps.join(', ') + ')',
+                backgroundSize: '25% 100%',
+                backgroundRepeat: 'no-repeat'
+              }">
               <div>
-                <span>{{ name }}</span>
+                <span style="flex: 0 0 25%;">{{ name }}</span>
+                <span style="flex: 1; width: auto;">{{ properties.variants.join(', ') }}<br>{{ properties.steps.join(', ') }}</span>
               </div>
             </div>
           </template>
