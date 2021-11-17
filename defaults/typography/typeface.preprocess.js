@@ -45,12 +45,14 @@ exports.default = (DesignSystemFeatureObj) => {
       }
     }
 
-    for (const [name, values] of Object.entries(font['font-sizes-specifics'])) {
-      for (const [breakpoint, value] of Object.entries(values)) {
-        if(
-          typeof DesignSystemFeatureObj.params[fontname].responsive[breakpoint] !== 'undefined'
-          && DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'] !== 'undefined'){
-          DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'][name] = `${value}`;
+    if(typeof font['font-sizes-specifics'] !== 'undefined') {
+      for (const [name, values] of Object.entries(font['font-sizes-specifics'])) {
+        for (const [breakpoint, value] of Object.entries(values)) {
+          if (
+              typeof DesignSystemFeatureObj.params[fontname].responsive[breakpoint] !== 'undefined'
+              && DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'] !== 'undefined') {
+            DesignSystemFeatureObj.params[fontname].responsive[breakpoint]['font-sizes'][name] = `${value}`;
+          }
         }
       }
     }
