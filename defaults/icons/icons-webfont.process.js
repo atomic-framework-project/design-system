@@ -1,5 +1,5 @@
 const path = require('path');
-const webfontsGenerator = require('@ilzrv/webfonts-generator');
+const webfontsGenerator = require('webfonts-generator');
 
 exports.default = (prefix, params, output) => {
 
