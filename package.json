@@ -1,6 +1,6 @@
 {
   "name": "@atomic-framework/design-system",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "From Designer params to read-to-use Frontend material",
   "main": "lib/design-system.js",
   "types": "lib/design-system.d.ts",
