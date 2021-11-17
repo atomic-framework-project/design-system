@@ -9,7 +9,7 @@ Allow you to possibly iterate on the design system until the end of the project
 - [Todo](#todo)
 
 ## Usage
-- 1: Require module `npm install --save @atomic-framework/design-system`  
+- 1: Require module `npm install --save-dev @atomic-framework/design-system`  
 - 2: Create an `index.js` file at your project's root and put the following code  
 ``` javascript
 const DesignSystem = require('@atomic-framework/design-system').DesignSystem;
