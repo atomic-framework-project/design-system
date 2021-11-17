@@ -49,7 +49,7 @@ exports.default = (prefix, params) => {
 
     for (const [unit, size] of Object.entries(config.units)) {
 
-      const unitName = `grid-${breakpoint}-${unit}`;
+      const unitName = `${namespace}-${unit}`;
 
       designSystemDirectives.sassPlaceholders[`%${unitName}`] = {
         sassdoc: {},
