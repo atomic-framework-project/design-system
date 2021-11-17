@@ -33,7 +33,7 @@ exports.default = (prefix, params) => {
 
       const range = Math.round(config.size / combinaison);
       const suffix = `-by${range}`;
-      const combinaisonName = `grid-${breakpoint}${suffix}`;
+      const combinaisonName = `${namespace}${suffix}`;
 
       designSystemDirectives.sassPlaceholders[`%${combinaisonName}`] = {
         sassdoc: {},
