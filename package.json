@@ -1,6 +1,6 @@
 {
   "name": "@atomic-framework/design-system",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "description": "From Designer params to read-to-use Frontend material",
   "main": "lib/design-system.js",
   "types": "lib/design-system.d.ts",
@@ -9,10 +9,6 @@
   },
   "engines": {
     "node": ">=12"
-  },
-  "resolutions": {
-    "ttf2woff": "3.0.0",
-    "ttf2woff2": "4.0.4"
   },
   "keywords": [
     "Frontend",
@@ -37,7 +33,6 @@
     "build": "npx tsc",
     "format": "npx prettier --write \"src/**/*.ts\"",
     "lint": "npx tslint -p tsconfig.json",
-    "preinstall": "npx npm-force-resolutions",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",

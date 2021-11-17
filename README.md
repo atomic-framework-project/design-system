@@ -1,3 +1,16 @@
+# Important notice
+`@atomic-framework/design-system` module relies on `webfonts-generator`.  
+We recommend to add a `npm-force-resolutions` to force `ttf2woff` and `ttf2woff2` submodules to updated versions.
+```json
+"resolutions": {
+  "ttf2woff": "3.0.0",
+  "ttf2woff2": "4.0.4"
+},
+"scripts": {
+  "preinstall": "npx npm-force-resolutions"
+}
+```
+
 # Atomic Framework: design-system
 From designer params to ready-to-use Frontend material `css`/`scss` files based on set of `json` config files  
 Industrialize design system building process and automate-it for your development team  
