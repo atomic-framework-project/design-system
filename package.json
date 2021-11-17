@@ -10,6 +10,10 @@
   "engines": {
     "node": ">=12"
   },
+  "resolutions": {
+    "ttf2woff": "3.0.0",
+    "ttf2woff2": "4.0.4"
+  },
   "keywords": [
     "Frontend",
     "Atomic",
@@ -33,6 +37,7 @@
     "build": "npx tsc",
     "format": "npx prettier --write \"src/**/*.ts\"",
     "lint": "npx tslint -p tsconfig.json",
+    "preinstall": "npx npm-force-resolutions",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
