@@ -1,6 +1,6 @@
 {
   "name": "@atomic-framework/design-system",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "description": "From Designer params to read-to-use Frontend material",
   "main": "lib/design-system.js",
   "types": "lib/design-system.d.ts",
@@ -65,11 +65,11 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "@vusion/webfonts-generator": "^0.8.0",
     "fs-extra": "^10.0.0",
     "globule": "^1.3.3",
     "lodash": "^4.17.21",
     "prettier": "^2.4.1",
-    "urlencode": "^1.1.0",
-    "webfonts-generator": "^0.4.0"
+    "urlencode": "^1.1.0"
   }
 }

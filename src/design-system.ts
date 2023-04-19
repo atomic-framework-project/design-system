@@ -93,7 +93,13 @@ export class DesignSystem {
   public static preprocessExtension = '.preprocess.js';
   public static processExtension = '.process.js';
 
-  constructor(entry: string, output: string, templateType: TemplateFormat, aliases?: string | boolean, splitFiles?: boolean) {
+  constructor(
+      entry: string,
+      output: string,
+      templateType: TemplateFormat,
+      aliases?: string | boolean,
+      splitFiles?: boolean,
+  ) {
     this.entry = resolve(process.cwd(), entry);
     this.output = resolve(process.cwd(), output);
     this.templateExtension = templateType;
@@ -277,7 +283,7 @@ export class DesignSystem {
   }
 
   public writeSassFile(output: string = this.output, filter?: DesignSystemFilterFunction): void {
-    if(!this.splitFiles) {
+    if (!this.splitFiles) {
       let source = `
       // ${DesignSystem.outputMsg}
       :root {
@@ -294,13 +300,12 @@ export class DesignSystem {
       }
 
       ensureDirSync(this.output);
-      writeFileSync(`${output}${sep}design-system.scss`, prettierFormat(source, {parser: 'scss'}), {
+      writeFileSync(`${output}${sep}design-system.scss`, prettierFormat(source, { parser: 'scss' }), {
         encoding: 'utf-8',
       });
-    }
-    else {
+    } else {
       // Font file
-      writeFileSync(`${output}${sep}design-system_fonts.scss`, prettierFormat(this.fonts, {parser: 'scss'}), {
+      writeFileSync(`${output}${sep}design-system_fonts.scss`, prettierFormat(this.fonts, { parser: 'scss' }), {
         encoding: 'utf-8',
       });
       // Helpers file
@@ -309,11 +314,11 @@ export class DesignSystem {
         
         ${this.helpers}
       `;
-      writeFileSync(`${output}${sep}design-system_helpers.scss`, prettierFormat(helpers, {parser: 'scss'}), {
+      writeFileSync(`${output}${sep}design-system_helpers.scss`, prettierFormat(helpers, { parser: 'scss' }), {
         encoding: 'utf-8',
       });
       // Vars file
-      writeFileSync(`${output}${sep}design-system_vars.scss`, prettierFormat(this.sassMaps, {parser: 'scss'}), {
+      writeFileSync(`${output}${sep}design-system_vars.scss`, prettierFormat(this.sassMaps, { parser: 'scss' }), {
         encoding: 'utf-8',
       });
       // CSS vars file
@@ -322,7 +327,7 @@ export class DesignSystem {
           ${this.cssVars}
         }
       `;
-      writeFileSync(`${output}${sep}design-system_css-vars.scss`, prettierFormat(cssVars, {parser: 'scss'}), {
+      writeFileSync(`${output}${sep}design-system_css-vars.scss`, prettierFormat(cssVars, { parser: 'scss' }), {
         encoding: 'utf-8',
       });
       // Placeholder file
@@ -332,9 +337,13 @@ export class DesignSystem {
         
         ${this.sassPlaceholders}
       `;
-      writeFileSync(`${output}${sep}design-system_placeholders.scss`, prettierFormat(placeholders, {parser: 'scss'}), {
-        encoding: 'utf-8',
-      });
+      writeFileSync(
+          `${output}${sep}design-system_placeholders.scss`,
+          prettierFormat(placeholders, { parser: 'scss' }),
+          {
+            encoding: 'utf-8',
+          },
+      );
     }
   }
 
@@ -342,17 +351,18 @@ export class DesignSystem {
     const features = this.getFeatures();
     const aliases: any = {};
 
-    for (const key of  Object.keys(features)) {
+    for (const key of Object.keys(features)) {
       const el = features[key];
       const alias = el.getAlias();
-      if(typeof alias !== 'undefined'){
+      if (typeof alias !== 'undefined') {
         aliases[alias[0]] = alias[1];
       }
     }
 
     ensureDirSync(this.output);
-    writeFileSync(`${output}${sep}design-system.json`, prettierFormat(JSON.stringify(aliases), { parser: 'json' }), { encoding: 'utf-8' });
-
+    writeFileSync(`${output}${sep}design-system.json`, prettierFormat(JSON.stringify(aliases), { parser: 'json' }), {
+      encoding: 'utf-8',
+    });
   }
 
   public writeJsonFile(output: string = this.output): void {
@@ -362,9 +372,13 @@ export class DesignSystem {
     ensureDirSync(this.output);
     ensureDirSync(`${output}${sep}${folderName}`);
 
-    for (const key of  Object.keys(features)) {
+    for (const key of Object.keys(features)) {
       const el = features[key];
-      writeFileSync(`${output}${sep}${folderName}${sep}${key}.json`, prettierFormat(JSON.stringify(el.getConfig().params), { parser: 'json' }), { encoding: 'utf-8' });
+      writeFileSync(
+          `${output}${sep}${folderName}${sep}${key}.json`,
+          prettierFormat(JSON.stringify(el.getConfig().params), { parser: 'json' }),
+          { encoding: 'utf-8' },
+      );
     }
   }
 }
