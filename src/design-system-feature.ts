@@ -9,7 +9,7 @@ import {
   DesignSystemAlias,
 } from './interface';
 import { basename, sep, relative } from 'path';
-import {optimize} from 'svgo';
+import { optimize } from 'svgo';
 
 export class DesignSystemFeature {
   public readonly _prefix = 'DS-';

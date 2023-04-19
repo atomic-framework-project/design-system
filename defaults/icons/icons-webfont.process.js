@@ -1,5 +1,5 @@
 const path = require('path');
-const webfontsGenerator = require('webfonts-generator');
+const webfontsGenerator = require('@vusion/webfonts-generator');
 
 exports.default = (prefix, params, output) => {
 
